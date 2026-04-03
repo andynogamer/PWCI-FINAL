@@ -332,6 +332,11 @@ main:has(.container) {
     max-width: 800px;
     margin: 2rem auto;
     width: 90%;
+   
+}
+
+.filler-container{
+    height: 20px;
 }
 
 /* CARDS DE RED SOCIAL */
@@ -379,3 +384,92 @@ main:has(.container) {
 }
 
 .post-footer button:hover { color: var(--primary); }
+
+
+
+.fb-card {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 12px;
+    max-width: 600px;
+    margin: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.fb-post-top {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.fb-post-top textarea {
+    flex: 1;
+    border: none;
+    resize: none;
+    background: #334155;
+    color: white;
+    border-radius: 20px;
+    padding: 12px 15px;
+    font-size: 14px;
+    min-height: 45px;
+    outline: none;
+}
+
+.fb-divider {
+    height: 1px;
+    background: #475569;
+    margin: 10px 0;
+}
+
+.fb-post-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.action-btn {
+    background: #334155;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #e2e8f0;
+    transition: 0.2s;
+}
+
+.action-btn:hover {
+    background: #475569;
+}
+
+.fb-post-actions select {
+    background: #334155;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.btn-publish {
+    background: #1877f2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+
+
+.btn-publish:hover {
+    background: #166fe5;
+}

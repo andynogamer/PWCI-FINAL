@@ -4,6 +4,7 @@
 require_once '../app/controller/AuthController.php';
 require_once '../app/controller/MundialController.php';
 require_once '../app/controller/ApiController.php'; 
+require_once '../app/controller/PublicacionController.php'; 
 require_once '../app/middleware/AuthMiddleware.php'; 
 
 
@@ -42,6 +43,10 @@ switch ($action) {
 
     case 'admin_categorias':
         (new MundialController())->adminCategorias();
+        break;
+
+    case 'crear_publicacion':
+        (new PublicacionController())->crearPublicacion();
         break;
 
 

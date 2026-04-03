@@ -33,7 +33,7 @@ CREATE TABLE usuario(
 	genero CHAR(1) NOT NULL,
 	paisNacimiento varchar(255) NOT NULL,
 	nacionalidad varchar(255) NOT NULL,
-	correoElectronico varchar(321) NOT NULL,
+	correoElectronico varchar(321) NOT NULL UNIQUE,
 	contrasena varchar(255) NOT NULL,
     fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     estatus BOOLEAN NOT NULL DEFAULT true,

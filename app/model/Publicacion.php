@@ -33,4 +33,20 @@ class Publicacion {
         $res = $stmt->fetch();
         return $res['totalComentarios'] ?? 0;
     }
+
+    public static function crear($data) {
+        $db = Database::connect();
+        
+        $stmt = $db->prepare("CALL sp_RegistrarPublicacion(?, ?, ?, ?, ?, ?)");
+        
+        return $stmt->execute([
+            $data['idMundial'],
+            $data['idUsuario'],
+            $data['idCategoria'],
+            $data['pais'] ?? '', 
+            $data['descripcion'], 
+            $data['multimedia']
+        ]);
+    }
+
 }

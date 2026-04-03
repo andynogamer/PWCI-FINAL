@@ -12,26 +12,40 @@
 
 <div class="foro-container">
     <?php if(isset($_SESSION['user'])): ?>
-    <section class="create-post card">
-        <form id="form-publicacion" enctype="multipart/form-data">
-            <input type="hidden" name="idMundial" value="<?php echo $mundial['id']; ?>">
-            <textarea name="descripcion" placeholder="¿Qué quieres compartir sobre este mundial?" required></textarea>
+        <section class="create-post fb-card">
+        <form method="POST" id="form-publicacion" enctype="multipart/form-data" action="index.php?action=crear_publicacion">
             
-            <div class="post-actions">
-                <div class="file-input">
-                    <label for="multimedia">📷 Agregar Infografía</label>
-                    <input type="file" name="multimedia" id="multimedia" accept="image/*" required>
-                </div>
+            <input type="hidden" name="idMundial" value="<?php echo $mundial['id']; ?>">
+            <input type="hidden" name="idUsuario" value="<?php echo $_SESSION['user']['id']; ?>">
+
+            <div class="fb-post-top">
+                <img src="data:image/*;base64,<?php echo base64_encode($_SESSION['user']['foto']); ?>" class="user-avatar">
+                <textarea name="descripcion" placeholder="¿Qué estás pensando?" required></textarea>
+            </div>
+
+            <div class="fb-divider"></div>
+
+            <div class="fb-post-actions">
+                <label class="action-btn">
+                    📷 Foto/Infografía
+                    <input type="file" name="multimedia" accept="image/*" required hidden>
+                </label>
+
                 <select name="idCategoria" id="select-categorias" required>
                     <option value="" disabled selected>Categoría</option>
-                </select> 
-                <button type="submit" class="btn-primary">Publicar</button>
+                </select>
+
+                <button type="submit" class="btn-publish">Publicar</button>
             </div>
         </form>
     </section>
     <?php endif; ?>
 
-    <div id="feed-publicaciones">
+    <div class="filler-container">
+
+    </div>
+
+    <div id="feed-publicaciones" class="feed-section">
         <p class="loading">Cargando infografías...</p>
     </div>
 </div>
@@ -39,6 +53,13 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const idMundial = <?php echo $mundial['id']; ?>;
+    <?php if(isset($_SESSION['user'])): ?>
+
+    const textarea = document.querySelector('textarea');
+    textarea.addEventListener('input', () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    });
 
     // 1. Cargar Categorías para el Select (API)
     fetch('index.php?action=api_get_categorias')
@@ -50,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+    <?php endif; ?>
     // 2. Cargar Publicaciones (API)
     function cargarFeed() {
         fetch(`index.php?action=api_get_publicaciones&idMundial=${idMundial}`)
