@@ -9,7 +9,7 @@ class AuthMiddleware {
 
         // Definimos qué acciones son para quién
         $rutasPublicas = ['login', 'register', 'mundiales'];
-        $rutasAdmin = ['admin_mundiales']; // Agregaremos más después
+        $rutasAdmin = ['admin_mundiales', 'admin_categorias']; // Agregaremos más después
 
         // 1. Si la ruta NO es pública y el usuario no ha iniciado sesión
         if (!in_array($action, $rutasPublicas) && !isset($_SESSION['user'])) {

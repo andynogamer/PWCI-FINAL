@@ -24,4 +24,7 @@ switch ($action) {
     case 'admin_mundiales': // Nueva ruta protegida
         (new MundialController())->adminMundiales();
         break;
+    case 'admin_categorias':
+        (new MundialController())->adminCategorias();
+        break;
 }
