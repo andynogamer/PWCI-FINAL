@@ -302,3 +302,80 @@ main:has(.container) {
     background: var(--primary-hover);
     transform: translateY(-2px);
 }
+
+/* --- FORO LAYOUT --- */
+.foro-banner {
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    padding: 2rem 5%;
+}
+
+.foro-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    color: white;
+}
+
+.foro-logo {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 12px;
+    padding: 5px;
+}
+
+.foro-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    width: 90%;
+}
+
+/* CARDS DE RED SOCIAL */
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid #334155;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-img {
+    width: 100%;
+    border-radius: 8px;
+    margin: 1rem 0;
+}
+
+.post-footer {
+    display: flex;
+    gap: 2rem;
+    border-top: 1px solid #334155;
+    padding-top: 1rem;
+}
+
+.post-footer button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.post-footer button:hover { color: var(--primary); }

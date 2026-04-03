@@ -1,26 +1,34 @@
 <?php
 class AuthMiddleware {
-    /**
-     * Verifica si el usuario tiene permiso para realizar la acción.
-     * @param string $action La acción solicitada en el index.php
-     */
     public static function verificar($action) {
         if (session_status() === PHP_SESSION_NONE) { session_start(); }
 
-        // Definimos qué acciones son para quién
-        $rutasPublicas = ['login', 'register', 'mundiales'];
-        $rutasAdmin = ['admin_mundiales', 'admin_categorias']; // Agregaremos más después
+        // Detectamos si es una petición de API
+        $esApi = (strpos($action, 'api_') === 0);
+        $rutasPublicas = ['login', 'register', 'mundiales', 'api_get_mundiales'];
+        $rutasAdmin = ['admin_mundiales', 'admin_categorias', 'api_crear_categoria'];
 
-        // 1. Si la ruta NO es pública y el usuario no ha iniciado sesión
+        // 1. Validación de Sesión
         if (!in_array($action, $rutasPublicas) && !isset($_SESSION['user'])) {
+            if ($esApi) {
+                header('Content-Type: application/json');
+                http_response_code(401);
+                echo json_encode(['error' => 'No autorizado']);
+                exit;
+            }
             header("Location: index.php?action=login");
             exit;
         }
 
-        // 2. Si la ruta es exclusiva de ADMIN y el usuario no tiene nivel 2
+        // 2. Validación de Admin
         if (in_array($action, $rutasAdmin)) {
             if (!isset($_SESSION['user']) || $_SESSION['user']['tipoUsuario'] != 2) {
-                // Redirigir a la landing si no tiene permisos
+                if ($esApi) {
+                    header('Content-Type: application/json');
+                    http_response_code(403);
+                    echo json_encode(['error' => 'Permisos insuficientes']);
+                    exit;
+                }
                 header("Location: index.php?action=mundiales");
                 exit;
             }

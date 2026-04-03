@@ -17,15 +17,38 @@
                 <th style="padding: 10px;">Categoría</th>
             </tr>
         </thead>
-        <tbody>
-            <?php foreach ($categorias as $cat): ?>
-                <tr style="border-bottom: 1px solid #334155;">
-                    <td style="padding: 10px;"><?php echo $cat['id']; ?></td>
-                    <td style="padding: 10px;"><?php echo $cat['categoria']; ?></td>
-                </tr>
-            <?php endforeach; ?>
+        <tbody id="categorias-container">
+            <tr>
+                <td colspan="2" style="text-align: center; color: var(--primary);">
+                    Cargando categorias...
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+        fetch('index.php?action=api_get_categorias')
+
+            .then(response=>response.json())
+            .then(data =>{
+                const container = document.getElementById('categorias-container');
+                container.innerHTML= '';
+
+                data.forEach(c => {
+                    console.log(c);
+                    container.innerHTML += `
+                    <tr style="border-bottom: 1px solid #334155;">
+                        <td style="padding: 10px;">${c.id}</td>
+                        <td style="padding: 10px;">${c.categoria}</td>
+                    </tr>
+                    `;
+                });
+
+            })
+            .catch(error => console.error('Error: ', error));
+    });
+</script>
 
 <?php include __DIR__ . '/../shared/footer.php'; ?>

@@ -17,8 +17,8 @@ class Mundial {
         $data['nombre'],
         $data['fecha'],
         $data['sede'],
-        $data['logo'], // Binario del Logo
-        $data['banner'], // Binario del Banner
+        $data['logo'], 
+        $data['banner'], 
         $data['descripcion']
     ]);
 }

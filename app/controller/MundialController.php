@@ -4,15 +4,15 @@ require_once __DIR__ . '/../model/Categoria.php';
 
 class MundialController {
     public function index() {
-        // Obtenemos la lista de mundiales desde el modelo
+        
         $mundiales = Mundial::listarActivos();
         
-        // Cargamos la vista de la landing page
+        
         require_once __DIR__ . '/../view/mundiales.php';
     }
 
     public function adminCategorias() {
-        // El middleware ya protege esta ruta, así que aquí solo operamos
+        
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['categoria'])) {
             Categoria::crear($_POST['categoria']);
             header("Location: index.php?action=admin_categorias");
@@ -21,6 +21,18 @@ class MundialController {
 
         $categorias = Categoria::listar();
         require_once __DIR__ . '/../view/admin/categorias.php';
+    }
+    public function foro() {
+        $id = $_GET['id'] ?? null;
+        if (!$id) { header("Location: index.php"); exit; }
+        
+        // Obtenemos info del mundial para el encabezado
+        $db = Database::connect();
+        $stmt = $db->prepare("CALL sp_ConsultarMundialPorId(?)");
+        $stmt->execute([$id]);
+        $mundial = $stmt->fetch();
+
+        require_once __DIR__ . '/../view/foro.php';
     }
 
     public function adminMundiales() {
