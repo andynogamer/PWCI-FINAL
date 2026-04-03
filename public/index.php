@@ -1,8 +1,12 @@
 <?php
 require_once '../app/controller/AuthController.php';
-require_once '../app/controller/MundialController.php'; 
+require_once '../app/controller/MundialController.php';
+require_once '../app/middleware/AuthMiddleware.php'; // IMPORTANTE
 
-$action = $_GET['action'] ?? 'mundiales'; 
+$action = $_GET['action'] ?? 'mundiales';
+
+// EJECUTAMOS EL MIDDLEWARE ANTES DEL SWITCH
+AuthMiddleware::verificar($action);
 
 switch ($action) {
     case 'mundiales':
@@ -16,5 +20,8 @@ switch ($action) {
         break;
     case 'logout':
         (new AuthController())->logout();
+        break;
+    case 'admin_mundiales': // Nueva ruta protegida
+        (new MundialController())->adminMundiales();
         break;
 }

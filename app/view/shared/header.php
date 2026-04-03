@@ -19,19 +19,25 @@ if (session_status() === PHP_SESSION_NONE) { session_start(); }
         </a>
 
         <nav class="nav-menu">
-            
-            
             <?php if(isset($_SESSION['user'])): ?>
-                <div class="user-info">
-                    <a href="index.php?action=perfil" class="profile-link">
-                        <?php if($_SESSION['user']['foto']): ?>
-                            <img src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['user']['foto']); ?>" class="nav-avatar">
-                        <?php else: ?>
-                            <div class="nav-avatar-placeholder"><?php echo substr($_SESSION['user']['nombre'], 0, 1); ?></div>
-                        <?php endif; ?>
-                        <span><?php echo $_SESSION['user']['nombre']; ?></span>
-                    </a>
-                    <a href="index.php?action=logout" class="btn-logout-icon">🚪</a>
+                <div class="user-actions">
+                    <?php if($_SESSION['user']['tipoUsuario'] == 2): ?>
+                        <a href="index.php?action=admin_mundiales" class="admin-link">
+                            <span>+</span> Nuevo Mundial
+                        </a>
+                    <?php endif; ?>
+
+                    <div class="user-info">
+                        <a href="index.php?action=perfil" class="profile-link">
+                            <?php if($_SESSION['user']['foto']): ?>
+                                <img src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['user']['foto']); ?>" class="nav-avatar">
+                            <?php else: ?>
+                                <div class="nav-avatar-placeholder"><?php echo substr($_SESSION['user']['nombre'], 0, 1); ?></div>
+                            <?php endif; ?>
+                            <span class="user-name"><?php echo $_SESSION['user']['nombre']; ?></span>
+                        </a>
+                        <a href="index.php?action=logout" class="btn-logout">Cerrar Sesión</a>
+                    </div>
                 </div>
             <?php else: ?>
                 <div class="auth-buttons">

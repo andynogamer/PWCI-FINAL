@@ -10,12 +10,12 @@ CREATE PROCEDURE sp_RegistrarUsuario(
     IN p_nombre varchar(255),
     IN p_apellido varchar(510),
     IN p_fechaNacimiento DATE,
-    IN p_foto BLOB,
+    IN p_foto mediumblob,
     IN p_genero CHAR(1),
     IN p_paisNacimiento varchar(255),
     IN p_nacionalidad varchar(255),
     IN p_correoElectronico varchar(321),
-    IN p_contrasena varchar(50)
+    IN p_contrasena varchar(255)
 
 )
 BEGIN
@@ -63,7 +63,7 @@ DROP PROCEDURE IF EXISTS sp_CambioFoto; --FOTO
 DELIMITER //
 CREATE PROCEDURE sp_CambioFoto(
     IN p_id int,
-    IN p_foto BLOB
+    IN p_foto mediumblob
 )
 BEGIN
     UPDATE usuario
@@ -112,8 +112,8 @@ CREATE PROCEDURE sp_RegistrarMundial(
     IN p_nombre varchar(255),
     IN p_fecha DATE,
     IN p_sede varchar(255),
-    IN p_logo BLOB,
-    IN p_banner BLOB,
+    IN p_logo mediumblob,
+    IN p_banner mediumblob,
     IN p_descripcion varchar(800)
 )
 BEGIN
@@ -143,8 +143,8 @@ CREATE PROCEDURE sp_ModificarMundial(
     IN p_nombre varchar(255),
     IN p_fecha DATE,
     IN p_sede varchar(255),
-    IN p_logo BLOB,
-    IN p_banner BLOB,
+    IN p_logo mediumblob,
+    IN p_banner mediumblob,
     IN p_descripcion varchar(800)
 )
 BEGIN
