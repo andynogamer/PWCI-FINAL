@@ -19,7 +19,7 @@ if (session_status() === PHP_SESSION_NONE) { session_start(); }
         </a>
 
         <nav class="nav-menu">
-            <a href="index.php?action=mundiales">Mundiales</a>
+            
             
             <?php if(isset($_SESSION['user'])): ?>
                 <div class="user-info">
