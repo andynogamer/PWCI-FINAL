@@ -1,0 +1,171 @@
+:root {
+    --primary: #38bdf8;
+    --primary-hover: #0ea5e9;
+    --bg-dark: #0f172a;
+    --card-bg: #1e293b;
+    --text-main: #f8fafc;
+    --input-bg: #334155;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* --- ESTRUCTURA GLOBAL --- */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    /* Cambiamos a columna para que Header, Main y Footer se apilen */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+/* El MAIN es el que ahora centra el contenido (Login/Register) */
+main {
+    flex: 1; /* Empuja al footer hacia abajo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* --- COMPONENTES --- */
+.container {
+    width: 100%;
+    max-width: 450px;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: var(--primary);
+}
+
+input, select {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 1rem;
+    background: var(--input-bg);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: #475569;
+}
+
+.profile-upload {
+    margin-bottom: 1rem;
+    border: 2px dashed #475569;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.profile-upload label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: var(--primary);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: var(--bg-dark);
+    border: none;
+    border-radius: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+a {
+    display: block;
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #94a3b8;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+/* --- HEADER --- */
+.main-header {
+    background: #1e293b;
+    padding: 1rem 0;
+    width: 100%;
+    border-bottom: 1px solid #334155;
+}
+
+.nav-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #fff;
+    text-decoration: none;
+}
+.logo span { color: var(--primary); }
+
+.nav-menu {
+    display: flex;
+    gap: 1rem;
+}
+
+/* --- FOOTER --- */
+.main-footer {
+    background: #1e293b;
+    padding: 2rem 0;
+    width: 100%;
+    border-top: 1px solid #334155;
+}
+
+.footer-grid {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+/* --- RESPONSIVE --- */
+@media (min-width: 768px) {
+    .container { padding: 3rem; }
+    
+    .footer-grid {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    .logo { font-size: 1.5rem; }
+}
