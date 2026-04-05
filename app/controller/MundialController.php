@@ -26,7 +26,7 @@ class MundialController {
         $id = $_GET['id'] ?? null;
         if (!$id) { header("Location: index.php"); exit; }
         
-        // Obtenemos info del mundial para el encabezado
+        
         $db = Database::connect();
         $stmt = $db->prepare("CALL sp_ConsultarMundialPorId(?)");
         $stmt->execute([$id]);

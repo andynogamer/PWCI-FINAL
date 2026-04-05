@@ -6,6 +6,7 @@ require_once '../app/controller/MundialController.php';
 require_once '../app/controller/ApiController.php'; 
 require_once '../app/controller/PublicacionController.php'; 
 require_once '../app/middleware/AuthMiddleware.php'; 
+require_once '../app/controller/UsuarioController.php';
 
 
 $action = $_GET['action'] ?? 'mundiales';
@@ -15,6 +16,8 @@ AuthMiddleware::verificar($action);
 
 switch ($action) {
 
+    case 'perfil':
+        (new UsuarioController())->perfil();
 
     case 'foro':
         (new MundialController())->foro();

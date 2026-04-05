@@ -36,4 +36,6 @@ class Usuario {
         $stmt->execute([$correo]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    
 }
