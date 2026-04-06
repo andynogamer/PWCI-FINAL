@@ -26,6 +26,7 @@ if (session_status() === PHP_SESSION_NONE) { session_start(); }
                             <span>+</span> Nuevo Mundial
                         </a>
                         <a href="index.php?action=admin_categorias" class="admin-link">Categorías</a>
+                        <a href="index.php?action=admin_publicaciones" class="admin-link">Aprobar Publicaciones</a>
                     <?php endif; ?>
 
                     <div class="user-info">

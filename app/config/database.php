@@ -14,16 +14,22 @@ class Database {
                    ";dbname=" . self::$db . 
                    ";charset=utf8mb4";
 
-            $pdo = new PDO($dsn, self::$user, self::$pass);
-
-            
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-
-            return $pdo;
+            return new PDO($dsn, self::$user, self::$pass, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // lanza excepciones
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false // 👈 importante
+            ]);
 
         } catch (PDOException $e) {
-            die("Error de conexión: " . $e->getMessage());
+            error_log($e->getMessage()); // 👈 guarda error real
+
+            // 👇 respuesta limpia (tipo API)
+            http_response_code(500);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'Error de conexión a la base de datos'
+            ]);
+            exit;
         }
     }
 }

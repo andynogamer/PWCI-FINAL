@@ -18,6 +18,42 @@ class Publicacion {
         return $publicaciones;
     }
 
+    public static function listarPorUsuario($idUsuario) {
+
+
+        $db = Database::connect();
+        
+        $stmt = $db->prepare("SELECT * FROM vw_PublicacionesInfo WHERE idUsuario = ? AND estatus = true ORDER BY fechaCreacion DESC");
+        $stmt->execute([$idUsuario]);
+        $publicaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        
+        foreach ($publicaciones as &$p) {
+            $p['likes'] = self::obtenerLikes($p['idPublicacion']);
+            $p['comentarios'] = self::obtenerTotalComentarios($p['idPublicacion']);
+            if ($p['multimedia']) $p['multimedia'] = base64_encode($p['multimedia']);
+        }
+        return $publicaciones;
+    }
+
+    public static function listarPorPendientes() {
+        
+
+        $db = Database::connect();
+        
+        $stmt = $db->query("SELECT * FROM vw_PublicacionesInfo  WHERE estatus = false ORDER BY fechaCreacion DESC");
+        $publicaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        
+        foreach ($publicaciones as &$p) {
+            $p['likes'] = self::obtenerLikes($p['idPublicacion']);
+            $p['comentarios'] = self::obtenerTotalComentarios($p['idPublicacion']);
+            if ($p['multimedia']) $p['multimedia'] = base64_encode($p['multimedia']);
+        }
+            
+        return $publicaciones;
+    }
+
     private static function obtenerLikes($id) {
         $db = Database::connect();
         $stmt = $db->prepare("CALL sp_ConsultaLikePorPublicacion(?)");
@@ -47,6 +83,22 @@ class Publicacion {
             $data['descripcion'], 
             $data['multimedia']
         ]);
+    }
+
+    public static function aprobar($id){
+        try {
+            $db = Database::connect();
+            $stmt = $db->prepare("CALL sp_AprobarPublicacion(?)");
+            $stmt->execute([$id]);
+
+            return true;
+
+        } catch (PDOException $e) {
+            return [
+                'error' => true,
+                'mensaje' => $e->getMessage()
+            ];
+        }
     }
 
 }

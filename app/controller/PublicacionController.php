@@ -15,4 +15,12 @@ class PublicacionController{
         require_once __DIR__ . '/../view/foro.php';
     }
 
+    public function publicacionesPendientes() {
+        
+
+        require_once __DIR__ . '/../view/admin/publicaciones_pendientes.php';
+    }
+
+    
+
 }

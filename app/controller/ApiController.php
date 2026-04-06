@@ -4,11 +4,21 @@ require_once __DIR__ . '/../model/Categoria.php';
 require_once __DIR__ . '/../model/Publicacion.php';
 
 class ApiController {
-    private function renderJSON($data) {
-        header('Content-Type: application/json');
-        echo json_encode($data);
-        exit;
+    
+private function renderJSON($data) {
+    header('Content-Type: application/json; charset=utf-8');
+    
+    
+    
+    $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PARTIAL_OUTPUT_ON_ERROR);
+    
+    if ($json === false) {
+        echo json_encode(["error" => "Error de codificación: " . json_last_error_msg()]);
+    } else {
+        echo $json;
     }
+    exit;
+}
 
     public function getMundiales() {
         $mundiales = Mundial::listarActivos();
@@ -31,7 +41,58 @@ class ApiController {
         $id = $_GET['idMundial'] ?? null;
         $publicaciones = Publicacion::listarPorMundial($id);
         header('Content-Type: application/json');
-        echo json_encode($publicaciones);
+        $this->renderJSON($publicaciones);
+        exit;
+    }
+
+    public function getPublicacionesUsuario() {
+        $idRequest = $_GET['idUsuario'] ?? null;
+        $idSession = $_SESSION['user']['id'];
+        if ($idRequest != $idSession) {
+            http_response_code(403);
+            echo json_encode(['error' => 'Acceso prohibido']);
+            exit;
+        }
+        $publicaciones = Publicacion::listarPorUsuario($idSession);
+        header('Content-Type: application/json');
+        $this->renderJSON($publicaciones);
+        exit;
+    }
+
+    public function getPublicacionesPendientes(){
+        
+        $publicaciones = Publicacion::listarPorPendientes();
+        $this->renderJSON($publicaciones);
+
+        
+    }
+
+    public function updateToAprovePublicacion(){
+        header('Content-Type: application/json');
+
+        $input = json_decode(file_get_contents("php://input"), true);
+        $id = $input['id'] ?? null;
+
+        if (!$id) {
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'ID requerido'
+            ]);
+            exit;
+        }
+
+        $resultado = Publicacion::aprobar($id);
+
+        if ($resultado === true) {
+            echo json_encode([
+                'success' => true
+            ]);
+        } else {
+            http_response_code(500);
+            echo json_encode($resultado);
+        }
+
         exit;
     }
 }

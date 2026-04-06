@@ -18,6 +18,7 @@ switch ($action) {
 
     case 'perfil':
         (new UsuarioController())->perfil();
+        break;
 
     case 'foro':
         (new MundialController())->foro();
@@ -52,6 +53,10 @@ switch ($action) {
         (new PublicacionController())->crearPublicacion();
         break;
 
+    case 'admin_publicaciones':
+        (new PublicacionController())->publicacionesPendientes();
+        break;
+
 
     //--API--
     case 'api_get_mundiales':
@@ -69,6 +74,16 @@ switch ($action) {
         (new ApiController())->getPublicacionesMundial();
         break;
 
+    case 'api_get_publicaciones_usuario':
+        (new ApiController())->getPublicacionesUsuario();
+        break;
+
+    case 'api_get_publicaciones_pendientes':
+        (new ApiController())->getPublicacionesPendientes();
+        break;
+
+    case 'api_update_publicacion_aprobada':
+        (new ApiController())->updateToAprovePublicacion();
     
     default:
         header("Location: index.php?action=mundiales");
