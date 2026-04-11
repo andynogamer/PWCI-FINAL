@@ -25,26 +25,38 @@ class AuthController {
     }
 
     public function register() {
+        $error = null;
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $datos = $_POST;
-            $fotoBinaria = null;
 
-            
-            if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
-                
-                $fotoBinaria = file_get_contents($_FILES['foto']['tmp_name']);
-            }
+            $resultado = Usuario::validarUsuario($datos);
 
-            
-            $datos['foto'] = $fotoBinaria;
-            
-            if (Usuario::crear($datos)) {
-                header("Location: index.php?action=login");
-                exit;
+            if ($resultado[0] === 'error') {
+                $error = $resultado[1]; // guardas el mensaje
+            } else {
+
+                $fotoBinaria = null;
+
+                if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+                    $fotoBinaria = file_get_contents($_FILES['foto']['tmp_name']);
+                }
+
+                $datos['foto'] = $fotoBinaria;
+
+                if (Usuario::crear($datos)) {
+                    header("Location: index.php?action=login");
+                    exit;
+                } else {
+                    $error = "Error al registrar usuario";
+                }
             }
         }
+
         require_once __DIR__ . '/../view/register.php';
     }
+
+    
 
     public function logout() {
         session_start();
