@@ -70,6 +70,41 @@ class Publicacion {
         return $res['totalComentarios'] ?? 0;
     }
 
+    public static function obtenerPublicacionPorId($id){
+        try{
+            $db = Database::connect();
+
+            $stmt = $db->prepare("
+                CALL sp_ConsultarPublicacionPorId(?)
+            ");
+
+            $stmt->execute([$id]);
+            $publicacion = $stmt->fetch();
+
+            if(!$publicacion){
+                return [
+                    'error' => true,
+                    'mensaje' => 'No existe esta publicación'
+                ];
+            }
+            if($publicacion['estatus'] === 1 ){
+                return $publicacion;
+            }
+            else{
+                return [
+                    'error' => true,
+                    'mensaje' => 'Permisos insuficientes'
+                ];
+            }
+            
+        }catch(PDOException $e){
+            return [
+                'error' => true,
+                'mensaje' => $e->getMessage()
+            ];
+        }
+    }
+
     public static function crear($data) {
         $db = Database::connect();
         

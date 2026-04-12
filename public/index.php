@@ -57,6 +57,10 @@ switch ($action) {
         (new PublicacionController())->publicacionesPendientes();
         break;
 
+    case 'publicacion':
+        (new PublicacionController())->publicacionDetalle();
+        break;
+
 
     //--API--
     case 'api_get_mundiales':

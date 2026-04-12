@@ -1,0 +1,252 @@
+/* --- VARIABLES DEL PROYECTO (Mantenidas para consistencia) --- */
+:root {
+    --primary: #38bdf8;
+    --primary-hover: #0ea5e9;
+    --bg-dark: #0f172a;
+    --card-bg: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --input-bg: #334155;
+    --transition: all 0.3s ease;
+}
+
+/* --- RESET INDEPENDIENTE --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #000; /* Fondo negro puro para resaltar la imagen */
+    overflow: hidden; /* Evita doble scroll */
+}
+
+/* --- VISOR PRINCIPAL --- */
+.visor-publicacion {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+/* Botón de cerrar tipo Overlay */
+.btn-cerrar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    text-decoration: none;
+    font-size: 20px;
+    transition: var(--transition);
+}
+
+.btn-cerrar:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+/* --- CONTENEDOR DE CONTENIDO --- */
+.contenedor-principal {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* SECCIÓN IZQUIERDA: IMAGEN */
+.seccion-media {
+    flex: 1; /* Ocupa todo el espacio dinámico */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+}
+
+.seccion-media img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+/* SECCIÓN DERECHA: SIDEBAR (INFO Y COMENTARIOS) */
+.sidebar-post {
+    width: 380px;
+    background: var(--card-bg);
+    border-left: 1px solid #334155;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-main);
+}
+
+/* Header de la Sidebar */
+.header-post {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #334155;
+}
+
+.foto-perfil {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+}
+
+.info-usuario strong {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--text-main);
+}
+
+.info-usuario span {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Cuerpo con Scroll (Aquí van descripción y comentarios) */
+.contenido-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+/* Personalización del Scrollbar para que se vea moderno */
+.contenido-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+.contenido-scroll::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 10px;
+}
+
+.descripcion {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* Interacción (Likes) */
+.interaccion {
+    padding: 12px 0;
+    border-top: 1px solid #334155;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-corazon {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #f87171;
+    transition: transform 0.2s;
+}
+
+.btn-corazon:hover {
+    transform: scale(1.2);
+}
+
+.contador-likes {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Comentarios */
+.lista-comentarios {
+    margin-top: 20px;
+}
+
+.comentario {
+    margin-bottom: 15px;
+    background: var(--input-bg);
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.comentario strong {
+    font-size: 0.85rem;
+    color: var(--primary);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.comentario p {
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+/* Footer: Input de comentario */
+.footer-comentarios {
+    padding: 16px;
+    border-top: 1px solid #334155;
+    background: var(--card-bg);
+}
+
+.footer-comentarios textarea {
+    width: 100%;
+    height: 70px;
+    background: var(--input-bg);
+    border: 1px solid #475569;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    resize: none;
+    font-family: inherit;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.footer-comentarios textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.btn-publicar {
+    background: var(--primary);
+    color: var(--bg-dark);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 800;
+    cursor: pointer;
+    float: right;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    transition: var(--transition);
+}
+
+.btn-publicar:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 900px) {
+    .contenedor-principal {
+        flex-direction: column;
+    }
+    .sidebar-post {
+        width: 100%;
+        height: 50%; /* La mitad inferior en móviles */
+    }
+    .seccion-media {
+        height: 50%;
+    }
+}

@@ -21,9 +21,9 @@ class Database {
             ]);
 
         } catch (PDOException $e) {
-            error_log($e->getMessage()); // 👈 guarda error real
+            error_log($e->getMessage()); 
 
-            // 👇 respuesta limpia (tipo API)
+            
             http_response_code(500);
             echo json_encode([
                 'error' => true,
