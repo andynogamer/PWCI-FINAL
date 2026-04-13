@@ -8,6 +8,7 @@ require_once '../app/controller/PublicacionController.php';
 require_once '../app/middleware/AuthMiddleware.php'; 
 require_once '../app/controller/UsuarioController.php';
 require_once '../app/controller/ComentarioController.php'; 
+require_once '../app/controller/LikeController.php'; 
 
 
 $action = $_GET['action'] ?? 'mundiales';
@@ -65,7 +66,10 @@ switch ($action) {
     case 'crear_comentario':
         (new ComentarioController())->crearComentario();
         break;
-
+    
+    case 'crear_like':
+        (new LikeController())->crearLike();
+        break;
 
     //--API--
     case 'api_get_mundiales':
@@ -91,8 +95,18 @@ switch ($action) {
         (new ApiController())->getPublicacionesPendientes();
         break;
 
+    case 'api_get_likes':
+        (new ApiController())->getLikes();
+        break;
+
     case 'api_update_publicacion_aprobada':
         (new ApiController())->updateToAprovePublicacion();
+        break;
+
+    case 'api_post_like':
+        (new ApiController())->postLike();
+        break;
+
     
     default:
         header("Location: index.php?action=mundiales");

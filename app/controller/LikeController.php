@@ -1,25 +1,30 @@
 <?php
 
-require_once __DIR__ . '/../model/Comentario.php';
+require_once __DIR__ . '/../model/Like.php';
 
-class ComentarioController{
-    public function crearComentario(){
-
+class LikeController{
+    public function crearLike(){
         $resultado = null;
-        if($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['comentario'])){
+        
+        if($_SERVER['REQUEST_METHOD'] == 'GET' && !empty($_GET['idPublicacion'])){
 
+            
+            
             if(!isset($_SESSION['user'])){
                 header("Location: index.php?action=login");
                 exit;
             }
             
-            $resultado = Comentario::crear($_POST);
+            
+            
+            $resultado = Like::crear($_GET);
+            
             
             
             if(is_array($resultado) && isset($resultado['success'])){
                 
                 
-                header("Location: index.php?action=publicacion&id=" . $_POST['idPublicacion']);
+                header("Location: index.php?action=publicacion&id=" . $_GET['idPublicacion']);
                 exit;
             }
         }

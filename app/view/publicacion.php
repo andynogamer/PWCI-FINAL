@@ -28,9 +28,17 @@
                 <div class="contenido-scroll">
                     <p class="descripcion"><?php echo htmlspecialchars($publicacion['descripcion']) ?></p>
 
-                    <div class="interaccion">
-                        <button class="btn-corazon">❤</button>
-                        <span class="contador-likes"><?php echo htmlspecialchars($publicacion['likes']) ?></span>
+                    <div class="interaccion" id="interaccion-container">
+                        
+                            
+                            <button class="btn-corazon" data-id="<?php echo $publicacion['idPublicacion']; ?>" style="background: none; border: none; cursor: pointer;">
+                                ❤
+                            </button>
+                            
+                            <span class="contador-likes" id="like-count">
+                                <?= htmlspecialchars($publicacion['likes']) ?>
+                            </span>
+                        
                     </div>
 
                     <div class="lista-comentarios">
@@ -66,5 +74,68 @@
 </html>
 
 <script>
+    document.addEventListener( 'DOMContentLoaded', ()=> {
+        function cargarLikes(idPublicacion){
+                
+                fetch('index.php?action=api_get_likes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: idPublicacion })
 
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        
+                        const contador = document.getElementById(`like-count`);
+
+                        if(contador){
+                            
+                            contador.textContent = data.response;
+                        }
+                        
+                        
+                    } else {
+                        alert("Error: " + data.mensaje);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Error en la petición");
+                });
+        }
+
+        document.getElementById('interaccion-container').addEventListener('click', (e) => {
+
+            if (e.target.classList.contains('btn-corazon')) {
+
+                const id = e.target.dataset.id;
+
+                fetch('index.php?action=api_post_like', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: id })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        
+                        cargarLikes(id); 
+                    } else {
+                        alert("Error: " + data.mensaje);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Error en la petición");
+                });
+            }
+
+        });
+
+    });
 </script>

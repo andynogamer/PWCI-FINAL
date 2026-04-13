@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p class="post-desc">${p.descripcion}</p>
                             <img src="data:image/*;base64,${p.multimedia}" class="post-img">
                             <div class="post-footer">
-                                <a class="btn-like">❤️ ${p.likes} Likes</a>
+                                <a class="btn-like" href="index.php?action=crear_like&idPublicacion=${p.idPublicacion}" >❤️ ${p.likes} Likes</a>
                                 <a class="btn-comment" href="index.php?action=publicacion&id=${p.idPublicacion}">💬 ${p.comentarios} Comentarios</a>
                             </div>
                         </article>

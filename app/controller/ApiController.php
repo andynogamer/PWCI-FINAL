@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../model/Mundial.php';
 require_once __DIR__ . '/../model/Categoria.php';
 require_once __DIR__ . '/../model/Publicacion.php';
+require_once __DIR__ . '/../model/Like.php';
 
 class ApiController {
     
@@ -97,4 +98,56 @@ private function renderJSON($data) {
 
         exit;
     }
+
+    public function postLike(){
+        header('Content-Type: application/json');
+        $input = json_decode(file_get_contents("php://input"), true);
+        $id = $input['id'] ?? null;
+        if(!$id){
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'ID requerido'
+
+            ]);
+            exit;
+        }
+        $resultado = Like::crear($id);
+
+        if(isset($resultado['success'])){
+            echo json_encode([
+                'success' => true
+            ]);
+        } else{
+            http_response_code(500);
+            echo json_encode($resultado);
+        }
+
+
+    }
+
+    public function getLikes(){
+        header('Content-Type: application/json');
+        $input = json_decode(file_get_contents("php://input"), true);
+        $id = $input['id'] ?? null;
+        
+        
+        if(!$id){
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'ID requerido'
+            ]);
+        }
+        
+        $resultado = Like::obtenerLikes($id);
+        if(isset($resultado['success'])){
+            echo json_encode($resultado);
+
+        }else{
+            http_response_code(500);
+            echo json_encode($resultado);
+        }
+    }
+        
 }
