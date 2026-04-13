@@ -1,4 +1,4 @@
-USE DATABASE infografia_mundiales;
+#USE DATABASE infografia_mundiales;
 
 ----------------------------------USUARIOS--------------------------------------
 
@@ -48,7 +48,7 @@ END //
 
 --CAMBIOS--
 DELIMITER //
-DROP PROCEDURE IF EXISTS sp_CambioContrasena // --CONTRASENA
+DROP PROCEDURE IF EXISTS sp_CambioContrasena // #CONTRASENA
 CREATE PROCEDURE sp_CambioContrasena(
     IN p_id int,
     IN p_contrasena varchar(50)
@@ -57,10 +57,10 @@ BEGIN
     UPDATE usuario
     SET contrasena = p_contrasena
     WHERE id = p_id;
-END; //
+END //
 
-DROP PROCEDURE IF EXISTS sp_CambioFoto; --FOTO
 DELIMITER //
+DROP PROCEDURE IF EXISTS sp_CambioFoto // #FOTO
 CREATE PROCEDURE sp_CambioFoto(
     IN p_id int,
     IN p_foto mediumblob
@@ -73,7 +73,7 @@ END //
 
 
 DELIMITER // 
-DROP PROCEDURE IF EXISTS sp_CambiosGeneralesUsuario // --GENERALES
+DROP PROCEDURE IF EXISTS sp_CambiosGeneralesUsuario // #GENERALES
 CREATE PROCEDURE sp_CambiosGeneralesUsuario(
     IN p_id int,
     IN p_nombre varchar(255),
@@ -92,13 +92,24 @@ END //
 --CONSULTA--
 DELIMITER //
 DROP PROCEDURE IF EXISTS sp_ConsultaUsuario //
-CREATE PROCEDURE sp_ConsultaUsuario( --Usuario consulta su propia información
+CREATE PROCEDURE sp_ConsultaUsuario( #Usuario consulta su propia información
     IN p_id int
 )
 BEGIN 
     SELECT id, tipoUsuario, nombre, apellido, fechaNacimiento, foto, genero, paisNacimiento, nacionalidad, correoElectronico
     FROM usuario 
     WHERE id = p_id;
+END //
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_ConsultaUsuarioPorCorreo //
+CREATE PROCEDURE sp_ConsultaUsuarioPorCorreo( 
+    IN p_correoElectronico varchar(321)
+)
+BEGIN 
+    SELECT id, tipoUsuario, nombre, apellido, fechaNacimiento, foto, genero, paisNacimiento, nacionalidad, correoElectronico, contrasena
+    FROM usuario 
+    WHERE correoElectronico = p_correoElectronico;
 END //
 
 

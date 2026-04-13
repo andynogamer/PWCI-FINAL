@@ -5,21 +5,25 @@ require_once __DIR__ . '/../model/Categoria.php';
 class MundialController {
     public function index() {
         
-        $mundiales = Mundial::listarActivos();
+        
         
         
         require_once __DIR__ . '/../view/mundiales.php';
     }
 
     public function adminCategorias() {
+        $resultado = null;
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['categoria'])) {
-            Categoria::crear($_POST['categoria']);
-            header("Location: index.php?action=admin_categorias");
-            exit;
+            $resultado = Categoria::crear($_POST['categoria']);
+            if(is_array($resultado) && isset($resultado['success'])){
+                header("Location: index.php?action=admin_categorias");
+                exit;
+            }
+            
         }
 
-        $categorias = Categoria::listar();
+        
         require_once __DIR__ . '/../view/admin/categorias.php';
     }
     public function foro() {

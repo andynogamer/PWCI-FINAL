@@ -99,14 +99,22 @@ class Usuario {
     }
 
     public static function login($correo) {
-        $db = Database::connect();
+        try{
+            $db = Database::connect();
+            $stmt = $db->prepare("
+                CALL sp_ConsultaUsuarioPorCorreo(?)
+            ");
 
-        $stmt = $db->prepare("
-            SELECT * FROM usuario WHERE correoElectronico = ?
-        ");
+            $stmt->execute([$correo]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt->execute([$correo]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        }catch(Exception $e){
+            return[
+                'error' => true,
+                'mensaje'  => $e->getMessage()
+            ];
+        }
+        
     }
 
     

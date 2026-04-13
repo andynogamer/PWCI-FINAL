@@ -38,6 +38,7 @@ class PublicacionController{
                     if ($c['fotoUsuario']) $c['fotoUsuario'] = base64_encode($c['fotoUsuario']);
                     
                 }
+                unset($c);
             }
             
 

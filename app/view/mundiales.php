@@ -19,6 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('mundiales-container');
             container.innerHTML = ''; 
 
+            if (data.error) {
+                container.innerHTML = `
+                    <div class="error-message">
+                        <h3>Ocurrió un error</h3>
+                        <p>${data.mensaje}</p>
+                    </div>
+                `;
+                return;
+            }
+            if (!Array.isArray(data)) {
+                container.innerHTML = `<p>Respuesta inesperada del servidor</p>`;
+                return;
+            }
+
             data.forEach(m => {
                 console.log(m);
                 container.innerHTML += `
@@ -35,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </div>
                             </div>
                             <p>${m.descripcion.substring(0, 120)}...</p>
+                            <div class="padding-container"></div>
                             <a href="index.php?action=foro&id=${m.id}" class="btn-card">Entrar al Foro</a>
                         </div>
                     </article>

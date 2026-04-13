@@ -35,15 +35,38 @@
             .then(data =>{
                 const container = document.getElementById('categorias-container');
                 container.innerHTML= '';
-
+                if (data.error) {
+                container.innerHTML = `
+                    <div class="error-message">
+                        <h3>Ocurrió un error</h3>
+                        <p>${data.mensaje}</p>
+                    </div>
+                `;
+                return;
+                }
+                if (!Array.isArray(data)) {
+                    container.innerHTML = `<p>Respuesta inesperada del servidor</p>`;
+                    return;
+                }
                 data.forEach(c => {
                     
-                    container.innerHTML += `
-                    <tr style="border-bottom: 1px solid #334155;">
-                        <td style="padding: 10px;">${c.id}</td>
-                        <td style="padding: 10px;">${c.categoria}</td>
-                    </tr>
-                    `;
+                    const tr = document.createElement('tr');
+                    tr.style.borderBottom = '1px solid #334155';
+
+                    // 2. Creamos la celda del ID
+                    const tdId = document.createElement('td');
+                    tdId.style.padding = '10px';
+                    tdId.textContent = c.id; // SEGURO: Se trata como texto puro
+
+                    // 3. Creamos la celda del Nombre
+                    const tdCat = document.createElement('td');
+                    tdCat.style.padding = '10px';
+                    tdCat.textContent = c.categoria; // SEGURO: Aunque traiga <script>, se verá como texto
+
+                    // 4. Armamos la estructura
+                    tr.appendChild(tdId);
+                    tr.appendChild(tdCat);
+                    container.appendChild(tr);
                 });
 
             })

@@ -5,7 +5,7 @@ class AuthMiddleware {
 
         // Detectamos si es una petición de API
         $esApi = (strpos($action, 'api_') === 0);
-        $rutasPublicas = ['login', 'register', 'mundiales', 'api_get_mundiales', 'foro', 'api_get_publicaciones', 'api_get_categorias', 'perfil', 'publicacion' ];
+        $rutasPublicas = ['login', 'crear_comentario', 'register', 'mundiales', 'api_get_mundiales', 'foro', 'api_get_publicaciones', 'api_get_categorias', 'perfil', 'publicacion' ];
         $rutasAdmin = ['admin_mundiales', 'admin_categorias', 'api_crear_categoria', 'api_get_publicaciones_pendientes', 'admin_publicaciones', 'api_update_publicacion_aprobada'];
 
         // 1. Validación de Sesión

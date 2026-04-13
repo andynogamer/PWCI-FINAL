@@ -18,4 +18,30 @@ class Comentario{
         }
         
     }
+
+    public static function crear($data){
+        try{
+            $idPadre = (!empty($data['idComentarioPadre'])) ? $data['idComentarioPadre'] : null;
+            $db = Database::connect();
+            $stmt = $db->prepare("CALL sp_RegistrarComentario(?, ?, ?, ?)");
+            
+            $stmt->execute([
+                $data['idPublicacion'],
+                $_SESSION['user']['id'],
+                $idPadre,
+                $data['comentario']
+            ]
+            );
+            return [
+                'success' => true
+            ];
+
+        }catch(Exception $e){
+            return [
+                'error' => true,
+                'mensaje' => $e->getMessage()
+            ];
+        }
+
+    }
 }

@@ -7,6 +7,7 @@ require_once '../app/controller/ApiController.php';
 require_once '../app/controller/PublicacionController.php'; 
 require_once '../app/middleware/AuthMiddleware.php'; 
 require_once '../app/controller/UsuarioController.php';
+require_once '../app/controller/ComentarioController.php'; 
 
 
 $action = $_GET['action'] ?? 'mundiales';
@@ -59,6 +60,10 @@ switch ($action) {
 
     case 'publicacion':
         (new PublicacionController())->publicacionDetalle();
+        break;
+
+    case 'crear_comentario':
+        (new ComentarioController())->crearComentario();
         break;
 
 

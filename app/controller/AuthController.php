@@ -4,20 +4,28 @@ require_once __DIR__ . '/../model/Usuario.php';
 class AuthController {
 
     public function login() {
+        $errormsg = null;
 
         if ($_POST) {
             $user = Usuario::login($_POST['correo']);
+            
 
-            if ($user && password_verify($_POST['contrasena'], $user['contrasena'])) {
+            if(is_array($user) && isset($user['error'])){
+                $errormsg = $user['mensaje'];
+            }else{
+                if ($user && password_verify($_POST['contrasena'], $user['contrasena'])) {
 
-                session_start();
-                $_SESSION['user'] = $user;
+                    session_start();
+                    $_SESSION['user'] = $user;
 
-                header("Location: index.php?action=mundiales");
-                exit;
-            } else {
-                echo "Credenciales incorrectas";
+                    header("Location: index.php?action=mundiales");
+                    exit;
+                } else {
+                    $errormsg = 'Las credenciales que ingresaste no son correctas';
+                }
             }
+
+            
         }
 
         
@@ -33,7 +41,7 @@ class AuthController {
             $resultado = Usuario::validarUsuario($datos);
 
             if ($resultado[0] === 'error') {
-                $error = $resultado[1]; // guardas el mensaje
+                $error = $resultado[1]; 
             } else {
 
                 $fotoBinaria = null;

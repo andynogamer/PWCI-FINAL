@@ -302,7 +302,25 @@ main:has(.container) {
     background: var(--primary-hover);
     transform: translateY(-2px);
 }
+.padding-container{
+    height: 15px;
+}
 
+.btn-card {
+    background: var(--primary);
+    color: var(--bg-dark) !important;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    
+    transition: var(--transition);
+}
+
+.btn-card:hover {
+    background: var(--primary-hover);
+    
+}
 /* --- FORO LAYOUT --- */
 .foro-banner {
     height: 250px;

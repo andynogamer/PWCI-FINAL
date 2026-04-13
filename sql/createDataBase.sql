@@ -72,7 +72,7 @@ CREATE TABLE comentario(
     id int NOT NULL AUTO_INCREMENT,
     idPublicacion int NOT NULL,
     idUsuario int NOT NULL,
-    idComentarioPadre int NOT NULL,
+    idComentarioPadre int,
     texto varchar(512),
     estatus BOOLEAN NOT NULL DEFAULT true,
     fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

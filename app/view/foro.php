@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         textarea.style.height = textarea.scrollHeight + 'px';
     });
 
-    // 1. Cargar Categorías para el Select (API)
+    
     fetch('index.php?action=api_get_categorias')
         .then(res => res.json())
         .then(data => {
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     <?php endif; ?>
-    // 2. Cargar Publicaciones (API)
+    
     function cargarFeed() {
         fetch(`index.php?action=api_get_publicaciones&idMundial=${idMundial}`)
             .then(res => res.json())
@@ -93,8 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p class="post-desc">${p.descripcion}</p>
                             <img src="data:image/*;base64,${p.multimedia}" class="post-img">
                             <div class="post-footer">
-                                <button class="btn-like">❤️ ${p.likes} Likes</button>
-                                <button class="btn-comment">💬 ${p.comentarios} Comentarios</button>
+                                <a class="btn-like">❤️ ${p.likes} Likes</a>
+                                <a class="btn-comment" href="index.php?action=publicacion&id=${p.idPublicacion}">💬 ${p.comentarios} Comentarios</a>
                             </div>
                         </article>
                     `;

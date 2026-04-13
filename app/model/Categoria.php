@@ -21,7 +21,10 @@ class Categoria {
         try{
             $db = Database::connect();
             $stmt = $db->prepare("CALL sp_RegistrarCategoria(?)");
-            return $stmt->execute([$nombre]);
+            $stmt->execute([$nombre]);
+            return [
+                'success' => true
+            ];
         }catch(PDOException $e){
             return [
                 'error' => true,

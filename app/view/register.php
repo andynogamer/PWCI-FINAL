@@ -22,10 +22,13 @@
             <input type="date" name="fechaNacimiento" required value="<?= htmlspecialchars($_POST['fechaNacimiento'] ?? '') ?>">
         </div>
 
+        
+
         <select name="genero">
-            <option value="" disabled <?php if(!isset($_POST)): ?> selected <?php endif;?> >Género</option>
-            <option value="M" <?php if(isset($_POST) && $_POST['genero'] === "M"): ?> selected <?php endif;?>>Masculino</option>
-            <option value="F" <?php if(isset($_POST) && $_POST['genero'] === "F"): ?> selected <?php endif;?>>Femenino</option>
+            
+            <option value="" disabled <?php if(!isset($_POST['genero'])): ?> selected <?php endif;?> >Género</option>
+            <option value="M" <?php if(isset($_POST['genero']) && $_POST['genero'] === "M"): ?> selected <?php endif;?>>Masculino</option>
+            <option value="F" <?php if(isset($_POST['genero']) && $_POST['genero'] === "F"): ?> selected <?php endif;?>>Femenino</option>
         </select>
 
         <input type="text" name="paisNacimiento" placeholder="País de nacimiento" required value="<?= htmlspecialchars($_POST['paisNacimiento'] ?? '') ?>">
