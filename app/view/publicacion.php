@@ -21,16 +21,16 @@
                     <img src="data:image/*;base64,<?php echo $publicacion['fotoUsuario']; ?>" alt="Perfil" class="foto-perfil">
                     <div class="info-usuario">
                         <strong><?php echo htmlspecialchars($publicacion['nombreUsuario'] . " " . $publicacion['apellidoUsuario'] ?? "") ?></strong>
-                        <span><?php echo htmlspecialchars($publicacion['descripcion']) ?></span>
+                        <span><?php echo htmlspecialchars($publicacion['fechaAprobacion']) ?></span>
                     </div>
                 </header>
 
                 <div class="contenido-scroll">
-                    <p class="descripcion">Esta es una prueba</p>
+                    <p class="descripcion"><?php echo htmlspecialchars($publicacion['descripcion']) ?></p>
 
                     <div class="interaccion">
                         <button class="btn-corazon">❤</button>
-                        <span class="contador-likes">23</span>
+                        <span class="contador-likes"><?php echo htmlspecialchars($publicacion['likes']) ?></span>
                     </div>
 
                     <div class="lista-comentarios">

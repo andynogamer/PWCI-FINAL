@@ -96,7 +96,7 @@ body, html {
     display: flex;
     align-items: center;
     gap: 12px;
-    border-bottom: 1px solid #334155;
+    
 }
 
 .foto-perfil {
@@ -137,7 +137,7 @@ body, html {
 .descripcion {
     font-size: 0.95rem;
     margin-bottom: 20px;
-    line-height: 1.5;
+    line-height: 0.5;
 }
 
 /* Interacción (Likes) */

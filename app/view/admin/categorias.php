@@ -37,7 +37,7 @@
                 container.innerHTML= '';
 
                 data.forEach(c => {
-                    console.log(c);
+                    
                     container.innerHTML += `
                     <tr style="border-bottom: 1px solid #334155;">
                         <td style="padding: 10px;">${c.id}</td>

@@ -23,11 +23,13 @@ private function renderJSON($data) {
     public function getMundiales() {
         $mundiales = Mundial::listarActivos();
         
-        
-        foreach ($mundiales as &$m) {
-            if ($m['logo']) $m['logo'] = base64_encode($m['logo']);
-            if ($m['banner']) $m['banner'] = base64_encode($m['banner']);
+        if($mundiales != null && !isset($mundiales['error'])){
+            foreach ($mundiales as &$m) {
+                if ($m['logo']) $m['logo'] = base64_encode($m['logo']);
+                if ($m['banner']) $m['banner'] = base64_encode($m['banner']);
+            }
         }
+        
         
         $this->renderJSON($mundiales);
     }

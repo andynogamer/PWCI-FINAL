@@ -4,12 +4,9 @@ require_once __DIR__ . '/../config/database.php';
 class Publicacion {
     public static function listarPorMundial($idMundial) {
         $db = Database::connect();
-        // Usamos la vista vw_PublicacionesInfo para traer datos de usuario y categoría
         $stmt = $db->prepare("SELECT * FROM vw_PublicacionesInfo WHERE idMundial = ? AND estatus = true ORDER BY fechaCreacion DESC");
         $stmt->execute([$idMundial]);
         $publicaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Agregamos likes y comentarios llamando a los SP existentes
         foreach ($publicaciones as &$p) {
             $p['likes'] = self::obtenerLikes($p['idPublicacion']);
             $p['comentarios'] = self::obtenerTotalComentarios($p['idPublicacion']);
@@ -88,6 +85,8 @@ class Publicacion {
                 ];
             }
             if($publicacion['estatus'] === 1 ){
+                $publicacion['likes'] = self::obtenerLikes($id);
+                $publicacion['comentarios'] = self::obtenerTotalComentarios($id); 
                 return $publicacion;
             }
             else{
