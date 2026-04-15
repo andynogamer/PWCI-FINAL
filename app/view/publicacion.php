@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="visor-publicacion">
-        <a href="index.php" class="btn-cerrar">✕</a>
+        <a href="#" onclick="cerrarDetalle(event)" class="btn-cerrar">✕</a>
 
         <div class="contenedor-principal">
             <div class="seccion-media">
@@ -74,6 +74,15 @@
 </html>
 
 <script>
+    function cerrarDetalle(e) {
+        e.preventDefault();
+
+        if (window.history.length > 1) {
+            history.back();
+        } else {
+            window.location.href = "index.php";
+        }
+    }
     document.addEventListener( 'DOMContentLoaded', ()=> {
         function cargarLikes(idPublicacion){
                 
@@ -126,7 +135,7 @@
                         
                         cargarLikes(id); 
                     } else {
-                        alert("Error: " + data.mensaje);
+                        alert("Error: " + data.error);
                     }
                 })
                 .catch(err => {

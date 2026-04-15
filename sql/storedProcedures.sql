@@ -369,6 +369,34 @@ BEGIN
     );
 END //
 
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_ToggleLike //
+CREATE PROCEDURE sp_ToggleLike(
+    IN p_idUsuario int,
+    IN p_idPublicacion int
+)
+BEGIN
+    DECLARE v_isThereInteraction INT;
+    SELECT COUNT(idUsuario) INTO v_isThereInteraction
+    FROM likePublicacion
+    WHERE idUsuario = p_idUsuario AND idPublicacion = p_idPublicacion;
+
+    IF v_isThereInteraction > 0 THEN 
+        DELETE FROM likePublicacion
+        WHERE idUsuario = p_idUsuario AND idPublicacion = p_idPublicacion;
+    ELSE
+        INSERT INTO likePublicacion(
+        idUsuario,
+        idPublicacion
+        )
+        VALUES(
+            p_idUsuario,
+            p_idPublicacion
+        );
+    END IF;
+END//
+
+
 --CONSULTAS
 DELIMITER //
 DROP PROCEDURE IF EXISTS sp_ConsultaLikePorPublicacion //

@@ -106,19 +106,25 @@ private function renderJSON($data) {
         if(!$id){
             http_response_code(400);
             echo json_encode([
-                'error' => true,
-                'mensaje' => 'ID requerido'
+                'error' => 'ID requerido'
 
             ]);
             exit;
         }
         $resultado = Like::crear($id);
 
+        
+
         if(isset($resultado['success'])){
             echo json_encode([
                 'success' => true
             ]);
         } else{
+            if($resultado['message'] === 'Permisos insuficientes'){
+                http_response_code(403);
+                echo json_encode(['error' => 'Es necesario iniciar sesión']);
+                exit;
+            }
             http_response_code(500);
             echo json_encode($resultado);
         }

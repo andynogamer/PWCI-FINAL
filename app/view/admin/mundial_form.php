@@ -8,12 +8,12 @@
         <input type="text" name="sede" placeholder="Sede" required>
         
         <div class="profile-upload">
-            <label>Logo del Mundial (BLOB)</label>
+            <label>Logo del Mundial</label>
             <input type="file" name="logo" accept="image/*" required>
         </div>
 
         <div class="profile-upload">
-            <label>Banner del Foro (BLOB)</label>
+            <label>Banner del Foro</label>
             <input type="file" name="banner" accept="image/*" required>
         </div>
 

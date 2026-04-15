@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p class="post-desc">${p.descripcion}</p>
                             <img src="data:image/*;base64,${p.multimedia}" class="post-img">
                             <div class="post-footer">
-                                <a class="btn-like" href="index.php?action=crear_like&idPublicacion=${p.idPublicacion}" >❤️ ${p.likes} Likes</a>
+                                <button class="btn-like"  data-id=${p.idPublicacion}>❤️ <span id="like-count-${p.idPublicacion}">${p.likes}</span> Likes</button>
                                 <a class="btn-comment" href="index.php?action=publicacion&id=${p.idPublicacion}">💬 ${p.comentarios} Comentarios</a>
                             </div>
                         </article>
@@ -58,6 +58,67 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     cargarFeed();
+    function cargarLikes(idPublicacion){
+                
+                fetch('index.php?action=api_get_likes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: idPublicacion })
+
+                })
+                .then(res => res.json())
+                .then(data => {
+                    
+                    if (data.success) {
+                        
+                        const contador = document.getElementById(`like-count-${idPublicacion}`);
+                        
+                        if(contador){
+                            
+                            contador.textContent = data.response;
+                        }
+                        
+                        
+                    } else {
+                        alert("Error: " + data.mensaje);
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Error en la petición");
+                });
+    }
+
+    document.getElementById('feed-publicaciones').addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-like')) {
+
+            const id = e.target.dataset.id;
+
+            fetch('index.php?action=api_post_like', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: id })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+
+                    cargarLikes(id); 
+                } else {
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error en la petición");
+            });
+        }
+
+    });
 });
 </script>
 

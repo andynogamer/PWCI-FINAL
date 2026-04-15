@@ -7,7 +7,17 @@ class Like{
         
         try{
             $db = Database::connect();
-            $stmt = $db->prepare("CALL sp_RegistrarLike(?, ?)");
+            $stmt = $db->prepare("CALL sp_ToggleLike(?, ?)");
+            
+            $userId = null;
+            if(isset($_SESSION['user']['id'])){
+                $userId = $_SESSION['user']['id'];
+            }else{
+                return[
+                    'error' => true,
+                    'message' => 'Permisos insuficientes'
+                ];
+            }
             $stmt->execute([
                 $_SESSION['user']['id'],
                 $data
