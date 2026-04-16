@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             data.forEach(m => {
-                console.log(m);
+                
                 container.innerHTML += `
                     <article class="mundial-card">
                         <div class="card-banner">

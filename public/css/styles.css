@@ -139,6 +139,72 @@ main:has(.container) {
 
 .container a:hover { color: var(--primary); }
 
+
+
+.grid-input-container{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 70px 70px 70px 150px 380px;
+
+        column-gap: 6px;
+        grid-template-areas:
+        "nombre"
+        "fecha"
+        "sede"
+        "descripcion"
+        "images" ;
+}
+.add-image-btn{
+        max-width: 290px;
+}
+
+.profile-upload{
+    display: grid;
+    place-items: center;
+}
+
+.item-nombre{
+    grid-area: nombre;
+}
+
+.item-fecha{
+    grid-area: fecha;
+}
+
+.item-sede{
+    grid-area: sede;
+
+}
+
+
+.item-images{
+    grid-area: images;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+
+}
+
+.item-hide{
+    display: none !important;
+}
+
+.img-logo{
+    max-width: 100px;
+}
+.img-banner{
+    max-width: 200px;
+}
+
+
+
+.item-descripcion{
+    grid-area: descripcion;
+}
+
+.mundial-form-container{
+    max-width: 750px !important; 
+}
+
 /* --- LANDING PAGE (MUNDIALES) --- */
 .landing-hero {
     text-align: center;
@@ -210,6 +276,22 @@ main:has(.container) {
     .mundiales-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
     .footer-grid { flex-direction: row; justify-content: space-between; text-align: left; }
     .landing-hero h1 { font-size: 3rem; }
+    .grid-input-container{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 70px 70px 70px 200px;
+
+        column-gap: 6px;
+        grid-template-areas:
+        "nombre images"
+        "fecha images"
+        "sede images"
+        "descripcion images" ;
+        
+    }
+    
+
+        
 }
 
 /* --- ESTILOS DE PERFIL EN EL HEADER --- */

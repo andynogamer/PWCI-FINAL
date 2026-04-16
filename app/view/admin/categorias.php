@@ -4,6 +4,11 @@
     <h1>Gestionar Categorías</h1>
     
     <form method="POST" action="index.php?action=admin_categorias" style="margin-bottom: 2rem;">
+        <?php if(is_array($resultado) && isset($resultado['error'])): ?>
+            <div style="color: red; margin-bottom: 10px;">
+            <?= htmlspecialchars($resultado['mensaje']) ?>
+            </div>
+        <?php endif; ?>
         <input type="text" name="categoria" placeholder="Nombre de la categoría (ej. Jugadores, Estadios)" required>
         <button type="submit">Agregar Categoría</button>
     </form>
@@ -53,17 +58,15 @@
                     const tr = document.createElement('tr');
                     tr.style.borderBottom = '1px solid #334155';
 
-                    // 2. Creamos la celda del ID
+                    
                     const tdId = document.createElement('td');
                     tdId.style.padding = '10px';
-                    tdId.textContent = c.id; // SEGURO: Se trata como texto puro
-
-                    // 3. Creamos la celda del Nombre
+                    tdId.textContent = c.id; 
                     const tdCat = document.createElement('td');
                     tdCat.style.padding = '10px';
-                    tdCat.textContent = c.categoria; // SEGURO: Aunque traiga <script>, se verá como texto
+                    tdCat.textContent = c.categoria; 
 
-                    // 4. Armamos la estructura
+                    
                     tr.appendChild(tdId);
                     tr.appendChild(tdCat);
                     container.appendChild(tr);
