@@ -51,6 +51,7 @@ CREATE TABLE publicacion(
 	multimedia LONGBLOB,
 	estatus BOOLEAN NOT NULL DEFAULT false,
 	vistas int UNSIGNED NOT NULL DEFAULT 0,
+    tipoPublicacion tinyint NOT NULL DEFAULT 0,
 	fechaCreacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	fechaAprobacion TIMESTAMP NULL DEFAULT NULL,
     FOREIGN KEY (idMundial) REFERENCES mundial(id),

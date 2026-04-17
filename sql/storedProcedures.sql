@@ -208,9 +208,29 @@ CREATE PROCEDURE sp_BajaMundial(
     IN p_id int
 )
 BEGIN
-    UPDATE mundial
-    SET estatus = false
-    WHERE id = p_id;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+    END;
+    START TRANSACTION;
+
+        UPDATE mundial
+        SET estatus = false
+        WHERE id = p_id;
+
+        UPDATE publicacion
+        SET estatus = 2
+        WHERE idMundial = p_id;
+
+        UPDATE comentario
+        SET estatus = false
+        WHERE idPublicacion IN (
+            SELECT id 
+            FROM publicacion
+            WHERE idMundial = p_id
+        );
+
+    COMMIT;
 END //
 
 ---------------------------------------------------------------------------------

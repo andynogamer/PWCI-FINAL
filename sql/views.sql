@@ -16,7 +16,8 @@ SELECT
     p.estatus,
     p.fechaCreacion,
     p.fechaAprobacion,
-    p.vistas
+    p.vistas,
+    P.tipoPublicacion
 FROM publicacion p 
 INNER JOIN usuario u ON p.idUsuario = u.id
 INNER JOIN categoria c ON p.idCategoria = c.id

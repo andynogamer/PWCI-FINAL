@@ -27,9 +27,13 @@
 
             <div class="fb-post-actions">
                 <label class="action-btn">
-                    📷 Foto/Infografía
+                    <img src="resources/add-multimedia.png" alt="photo"> 
                     <input type="file" name="multimedia" accept="image/*" required hidden>
                 </label>
+
+                <select name="pais" id="select-pais" >
+                    
+                </select>
 
                 <select name="idCategoria" id="select-categorias" required>
                     <option value="" disabled selected>Categoría</option>
@@ -53,7 +57,9 @@
 <?php include __DIR__ . '/shared/footer.php'; ?>
 
 <script>
+
 document.addEventListener('DOMContentLoaded', () => {
+    const sedeSelect = document.getElementById('select-pais');
     const idMundial = <?php echo $mundial['id']; ?>;
     <?php if(isset($_SESSION['user'])): ?>
 
@@ -62,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         textarea.style.height = 'auto';
         textarea.style.height = textarea.scrollHeight + 'px';
     });
+
 
     
     fetch('index.php?action=api_get_categorias')
@@ -75,6 +82,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <?php endif; ?>
     
+
+    async function cargarPaises() {
+        try {
+            // Usamos el endpoint de 'all' filtrando solo los campos que necesitamos (nombre en español)
+            const response = await fetch('https://restcountries.com/v3.1/all?fields=translations');
+            const countries = await response.json();
+
+            // 1. Extraemos los nombres comunes en español
+            let nombresPaises = countries.map(c => c.translations.spa.common);
+
+            // 2. Ordenamos alfabéticamente
+            nombresPaises.sort((a, b) => a.localeCompare(b));
+
+            // 3. Limpiamos el select y llenamos con los datos
+            sedeSelect.innerHTML = '<option value="" disabled selected>Pais</option>';
+            
+            nombresPaises.forEach(pais => {
+                const option = document.createElement('option');
+                option.value = pais;
+                option.textContent = pais;
+                
+                
+                
+                sedeSelect.appendChild(option);
+            });
+
+        } catch (error) {
+            console.error("Error al cargar países:", error);
+            sedeSelect.innerHTML = '<option value="" disabled>Error al cargar países</option>';
+        }
+    }
+
     function cargarFeed() {
         fetch(`index.php?action=api_get_publicaciones&idMundial=${idMundial}`)
             .then(res => res.json())
@@ -103,8 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
     }
-
+    cargarPaises();
     cargarFeed();
+    
 
     function cargarLikes(idPublicacion){
                 

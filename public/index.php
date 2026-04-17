@@ -58,6 +58,13 @@ switch ($action) {
     case 'admin_publicaciones':
         (new PublicacionController())->publicacionesPendientes();
         break;
+        
+    case 'admin_modificar_mundial':
+        (new MundialController())->mundialPorid();
+        break;
+    case 'admin_post_modificar_mundial':
+        (new MundialController())->modificarMundial();
+        break;
 
     case 'publicacion':
         (new PublicacionController())->publicacionDetalle();
@@ -70,6 +77,8 @@ switch ($action) {
     case 'crear_like':
         (new LikeController())->crearLike();
         break;
+
+    
 
     //--API--
     case 'api_get_mundiales':
@@ -105,6 +114,10 @@ switch ($action) {
 
     case 'api_post_like':
         (new ApiController())->postLike();
+        break;
+
+    case 'api_delete_mundial':
+        (new ApiController())->deleteMundial();
         break;
 
     

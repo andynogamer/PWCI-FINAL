@@ -155,5 +155,28 @@ private function renderJSON($data) {
             echo json_encode($resultado);
         }
     }
+
+    public function deleteMundial(){
+        header('Content:Type: application/json');
+        $input = json_decode(file_get_contents("php://input"), true);
+        $id = $input['id'] ?? null;
+        
+        if(!$id){
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'ID requerido'
+            ]);
+            exit;
+        }
+        $resultado = Mundial::eliminar($id);
+        if(isset($resultado['success'])){
+            echo json_encode($resultado);
+
+        }else{
+            http_response_code(500);
+            echo json_encode($resultado);
+        }
+    }
         
 }

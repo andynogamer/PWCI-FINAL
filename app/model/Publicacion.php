@@ -6,7 +6,8 @@ class Publicacion {
         $db = Database::connect();
         $stmt = $db->prepare("
                             SELECT idPublicacion, idMundial, nombreMundial, fechaMundial, idUsuario, nombreUsuario, apellidoUsuario, fotoUsuario,
-                            idCategoria, nombreCategoria, paisMencionado, descripcion, multimedia, estatus, fechaCreacion, fechaAprobacion, vistas
+                            idCategoria, nombreCategoria, paisMencionado, descripcion, multimedia, estatus, fechaCreacion, fechaAprobacion, vistas, 
+                            tipoPublicacion
                             FROM vw_PublicacionesInfo WHERE idMundial = ? AND estatus = true ORDER BY fechaCreacion DESC");
         $stmt->execute([$idMundial]);
         $publicaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -25,7 +26,8 @@ class Publicacion {
         
         $stmt = $db->prepare("
                             SELECT idPublicacion, idMundial, nombreMundial, fechaMundial, idUsuario, nombreUsuario, apellidoUsuario, fotoUsuario,
-                                idCategoria, nombreCategoria, paisMencionado, descripcion, multimedia, estatus, fechaCreacion, fechaAprobacion, vistas
+                            idCategoria, nombreCategoria, paisMencionado, descripcion, multimedia, estatus, fechaCreacion, fechaAprobacion, vistas, 
+                            tipoPublicacion
                             FROM vw_PublicacionesInfo WHERE idUsuario = ? AND estatus = true ORDER BY fechaCreacion DESC
                             ");
         $stmt->execute([$idUsuario]);
@@ -45,7 +47,11 @@ class Publicacion {
 
         $db = Database::connect();
         
-        $stmt = $db->query("SELECT * FROM vw_PublicacionesInfo  WHERE estatus = false ORDER BY fechaCreacion DESC");
+        $stmt = $db->query("
+                        SELECT idPublicacion, idMundial, nombreMundial, fechaMundial, idUsuario, nombreUsuario, apellidoUsuario, fotoUsuario,
+                        idCategoria, nombreCategoria, paisMencionado, descripcion, multimedia, estatus, fechaCreacion, fechaAprobacion, vistas, 
+                        tipoPublicacion
+                        FROM vw_PublicacionesInfo  WHERE estatus = false ORDER BY fechaCreacion DESC");
         $publicaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         

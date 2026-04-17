@@ -26,35 +26,50 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const idUsuario = <?php echo $_SESSION['user']['id']; ?>;
+
+    const feed = document.getElementById('feed-publicaciones');
     
     
     function cargarFeed() {
         fetch(`index.php?action=api_get_publicaciones_usuario&idUsuario=${idUsuario}`)
-            .then(res => res.json())
-            .then(data => {
-                const feed = document.getElementById('feed-publicaciones');
-                feed.innerHTML = data.length ? '' : '<p class="empty">Aún no hay publicaciones en este mundial.</p>';
+        .then(res => res.json())
+        .then(data => {
+            if (!data.length) {
+                feed.innerHTML = '<p class="empty">Aún no hay publicaciones en este mundial.</p>';
+                return;
+            }
+
+            
+            const htmlBuffer = data.map(p => {
                 
-                data.forEach(p => {
-                    feed.innerHTML += `
-                        <article class="post-card card">
-                            <div class="post-header">
-                                <img src="data:image/*;base64,${p.fotoUsuario}" class="user-avatar">
-                                <div>
-                                    <h3>${p.nombreUsuario} ${p.apellidoUsuario}</h3>
-                                    <span>${p.nombreCategoria} • ${new Date(p.fechaCreacion).toLocaleDateString()}</span>
-                                </div>
+                const fecha = new Date(p.fechaCreacion).toLocaleDateString();
+                
+                return `
+                    <article class="post-card card">
+                        <div class="post-header">
+                            <img src="data:image/*;base64,${p.fotoUsuario}" class="user-avatar" alt="Avatar" loading="lazy">
+                            <div>
+                                <h3>${p.nombreUsuario} ${p.apellidoUsuario}</h3>
+                                <span>${p.nombreCategoria} • ${fecha}</span>
                             </div>
-                            <p class="post-desc">${p.descripcion}</p>
-                            <img src="data:image/*;base64,${p.multimedia}" class="post-img">
-                            <div class="post-footer">
-                                <button class="btn-like"  data-id=${p.idPublicacion}>❤️ <span id="like-count-${p.idPublicacion}">${p.likes}</span> Likes</button>
-                                <a class="btn-comment" href="index.php?action=publicacion&id=${p.idPublicacion}">💬 ${p.comentarios} Comentarios</a>
-                            </div>
-                        </article>
-                    `;
-                });
-            });
+                        </div>
+                        <p class="post-desc">${p.descripcion}</p>
+                        <img src="data:image/*;base64,${p.multimedia}" class="post-img" alt="Publicación" loading="lazy">
+                        <div class="post-footer">
+                            <button class="btn-like" data-id="${p.idPublicacion}">
+                                ❤️ <span id="like-count-${p.idPublicacion}">${p.likes}</span> Likes
+                            </button>
+                            <a class="btn-comment" href="index.php?action=publicacion&id=${p.idPublicacion}">
+                                💬 ${p.comentarios} Comentarios
+                            </a>
+                        </div>
+                    </article>
+                `;
+            }).join(''); // Unimos todo en un solo string
+
+            // 2. Una sola actualización del DOM
+            feed.innerHTML = htmlBuffer;
+        });
     }
 
     cargarFeed();
