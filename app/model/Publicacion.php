@@ -4,7 +4,10 @@ require_once __DIR__ . '/../config/database.php';
 class Publicacion {
     public static function listarPorMundial($idMundial) {
         $db = Database::connect();
-        $stmt = $db->prepare("SELECT * FROM vw_PublicacionesInfo WHERE idMundial = ? AND estatus = true ORDER BY fechaCreacion DESC");
+        $stmt = $db->prepare("
+                            SELECT idPublicacion, idMundial, nombreMundial, fechaMundial, idUsuario, nombreUsuario, apellidoUsuario, fotoUsuario,
+                            idCategoria, nombreCategoria, paisMencionado, descripcion, multimedia, estatus, fechaCreacion, fechaAprobacion, vistas
+                            FROM vw_PublicacionesInfo WHERE idMundial = ? AND estatus = true ORDER BY fechaCreacion DESC");
         $stmt->execute([$idMundial]);
         $publicaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($publicaciones as &$p) {
@@ -20,7 +23,11 @@ class Publicacion {
 
         $db = Database::connect();
         
-        $stmt = $db->prepare("SELECT * FROM vw_PublicacionesInfo WHERE idUsuario = ? AND estatus = true ORDER BY fechaCreacion DESC");
+        $stmt = $db->prepare("
+                            SELECT idPublicacion, idMundial, nombreMundial, fechaMundial, idUsuario, nombreUsuario, apellidoUsuario, fotoUsuario,
+                                idCategoria, nombreCategoria, paisMencionado, descripcion, multimedia, estatus, fechaCreacion, fechaAprobacion, vistas
+                            FROM vw_PublicacionesInfo WHERE idUsuario = ? AND estatus = true ORDER BY fechaCreacion DESC
+                            ");
         $stmt->execute([$idUsuario]);
         $publicaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

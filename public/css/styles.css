@@ -35,6 +35,121 @@ body {
 }
 
 /* --- HEADER --- */
+
+/* --- AJUSTES HEADER --- */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* --- SIDEBAR (BURGER MENU) --- */
+.mobile-sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px; /* Oculto por defecto */
+    width: 280px;
+    height: 100vh;
+    background: var(--card-bg);
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 10px 0 15px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-sidebar.active {
+    left: 0;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    z-index: 999;
+    backdrop-filter: blur(3px);
+}
+
+.menu-overlay.active {
+    display: block;
+}
+
+/* --- CONTENIDO SIDEBAR --- */
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #334155;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-header h3 {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.sidebar-links {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.section-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 1rem 0 0.5rem 0.8rem;
+    letter-spacing: 1px;
+}
+
+.sidebar-link {
+    padding: 12px 15px;
+    border-radius: 8px;
+    color: var(--text-main);
+    font-weight: 500;
+    transition: var(--transition);
+    display: block;
+}
+
+.sidebar-link:hover {
+    background: var(--input-bg);
+    color: var(--primary);
+}
+
+.sidebar-divider {
+    border: 0;
+    border-top: 1px solid #334155;
+    margin: 10px 0;
+}
+
+.btn-logout-sidebar {
+    color: #f87171 !important;
+}
+
+/* --- REGLA PARA MÓVIL: OCULTAR NOMBRE SI ES MUY PEQUEÑO --- */
+@media (max-width: 480px) {
+    .user-name {
+        display: none; /* Solo queda la foto en la barra para más limpieza */
+    }
+    .user-info {
+        border-left: none;
+        padding-left: 0;
+    }
+}
+
 .main-header {
     background: var(--card-bg);
     border-bottom: 1px solid #334155;
@@ -49,6 +164,22 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.btn-menu {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.btn-menu img {
+    width: 30px; /* ajusta tamaño */
+    height: 30px;
+}
+
+.btn-menu:hover {
+    opacity: 0.7;
 }
 
 .logo { font-size: 1.4rem; font-weight: 800; }
