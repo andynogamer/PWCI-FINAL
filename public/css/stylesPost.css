@@ -137,7 +137,8 @@ body, html {
 .descripcion {
     font-size: 0.95rem;
     margin-bottom: 20px;
-    line-height: 0.5;
+    line-height: 1.5; /* Cambiado de 0.5 a 1.5 */
+    color: var(--text-main);
 }
 
 /* Interacción (Likes) */
@@ -178,18 +179,24 @@ body, html {
     background: var(--input-bg);
     padding: 10px;
     border-radius: 12px;
+    display: flex; /* Alinea imagen a la izquierda del texto */
+    gap: 12px;
 }
 
 .comentario strong {
     font-size: 0.85rem;
     color: var(--primary);
-    display: block;
+    
     margin-bottom: 4px;
 }
 
 .comentario p {
     font-size: 0.9rem;
     color: var(--text-main);
+}
+.comentario-texto {
+    display: flex;
+    flex-direction: column;
 }
 
 /* Footer: Input de comentario */
@@ -238,15 +245,59 @@ body, html {
 }
 
 /* --- RESPONSIVE --- */
+/* --- RESPONSIVE OPTIMIZADO --- */
 @media (max-width: 900px) {
+    body, html {
+        overflow: auto; /* Permitimos scroll en el celular */
+        height: auto;
+    }
+
+    .visor-publicacion {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
     .contenedor-principal {
         flex-direction: column;
+        height: auto;
     }
+
+    /* La imagen ocupa una parte fija de la pantalla */
+    .seccion-media {
+        width: 100%;
+        height: 45vh; /* Altura fija para la imagen en móvil */
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #000;
+    }
+
+    /* La sidebar se vuelve el contenido de abajo */
     .sidebar-post {
         width: 100%;
-        height: 50%; /* La mitad inferior en móviles */
+        height: auto; 
+        border-left: none;
+        border-top: 1px solid #334155;
+        flex: none;
     }
-    .seccion-media {
-        height: 50%;
+
+    .contenido-scroll {
+        overflow-y: visible; /* El scroll ahora es de la página, no interno */
+        height: auto;
+        padding-bottom: 20px;
+    }
+
+    /* Ajuste para que los comentarios no se vean apretados */
+    .comentario {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .comentario img {
+        width: 30px;
+        height: 30px;
+        flex-shrink: 0;
     }
 }

@@ -12,7 +12,11 @@
 
         <div class="contenedor-principal">
             <div class="seccion-media">
+                <?php if($publicacion['tipoPublicacion'] === 1): ?>
+                <video src="data:video/mp4;base64,<?php echo $publicacion['multimedia']?>" controls></video>
+                <?php else: ?>
                 <img src="data:image/*;base64,<?php echo $publicacion['multimedia']; ?>" alt="Publicación">
+                <?php endif; ?>
             </div>
 
             <aside class="sidebar-post">
@@ -46,9 +50,11 @@
                             
                             <?php foreach ($comentarios as $c): ?>
                                 <div class="comentario">
-                                    <img src="data:image/jpeg;base64, <?= $c['fotoUsuario'] ?>" class="foto-perfil">
-                                    <strong><?= htmlspecialchars($c['nombreUsuario'] . " " . $c['apellidoUsuario'] ?? '') ?></strong>
-                                    <p><?= htmlspecialchars($c['texto']) ?></p>
+                                    <img src="data:image/jpeg;base64, <?= $c['fotoUsuario'] ?>" class="foto-perfil" style="width: 35px; height: 35px;">
+                                    <div class="comentario-texto">
+                                        <strong><?= htmlspecialchars($c['nombreUsuario'] . " " . $c['apellidoUsuario']) ?></strong>
+                                        <p><?= htmlspecialchars($c['texto']) ?></p>
+                                    </div>
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>

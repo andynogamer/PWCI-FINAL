@@ -29,6 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 feed.innerHTML = data.length ? '' : '<p class="empty">Aún no hay publicaciones.</p>';
                 
                 data.forEach(p => {
+                    let multimediaHtml = '';
+                    if (p.tipoPublicacion === 1) {
+                        multimediaHtml = `<video src="data:video/mp4;base64,${p.multimedia}" class="post-img" controls></video>`;
+                    } else {
+                        multimediaHtml = `<img src="data:image/*;base64,${p.multimedia}" class="post-img">`;
+                    }
                     feed.innerHTML += `
                         <article class="post-card card">
                             <div class="post-header">
@@ -39,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </div>
                             </div>
                             <p class="post-desc">${p.descripcion}</p>
-                            <img src="data:image/*;base64,${p.multimedia}" class="post-img">
+                            ${multimediaHtml} 
                             <div class="post-footer">
                                 <button class="btn-aprobar" data-id="${p.idPublicacion}"> Aprobar</button>
                                 <button class="btn-comment" data-id="${p.idPublicacion}"> Eliminar</button>

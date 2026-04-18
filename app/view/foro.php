@@ -28,7 +28,7 @@
             <div class="fb-post-actions">
                 <label class="action-btn">
                     <img src="resources/add-multimedia.png" alt="photo"> 
-                    <input type="file" name="multimedia" accept="image/*" required hidden>
+                    <input type="file" name="multimedia" accept="image/*,video/mp4" required hidden>
                 </label>
 
                 <select name="pais" id="select-pais" >
@@ -63,6 +63,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const idMundial = <?php echo $mundial['id']; ?>;
     <?php if(isset($_SESSION['user'])): ?>
 
+    // Dentro de tu DOMContentLoaded
+    /*
+    const inputMult = document.getElementById('input-multimedia');
+    const imgPrev = document.getElementById('img-preview');
+    const vidPrev = document.getElementById('video-preview');
+    const prevCont = document.getElementById('preview-container');
+    const MAX_FILE_SIZE = 16 * 1024 * 1024;
+
+    inputMult.addEventListener('change', function() {
+        const file = this.files[0];
+        if (!file) return;
+
+        if (file.size > MAX_FILE_SIZE) {
+            alert("El archivo es demasiado pesado (Máximo 16MB).");
+            this.value = ""; // Limpia el input
+            if(prevCont) prevCont.style.display = 'none'; // Esconde la previa si existía
+            return;
+        }
+
+        const reader = new FileReader();
+        const isVideo = file.type.startsWith('video/');
+        const isImage = file.type.startsWith('image/');
+
+        reader.onload = function(e) {
+            prevCont.style.display = 'block';
+            if (isImage) {
+                imgPrev.src = e.target.result;
+                imgPrev.style.display = 'block';
+                vidPrev.style.display = 'none';
+            } else if (isVideo) {
+                vidPrev.src = e.target.result;
+                vidPrev.style.display = 'block';
+                imgPrev.style.display = 'none';
+            }
+        };
+
+        reader.readAsDataURL(file);
+    });
+        */
     const textarea = document.querySelector('textarea');
     textarea.addEventListener('input', () => {
         textarea.style.height = 'auto';
@@ -121,7 +160,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 const feed = document.getElementById('feed-publicaciones');
                 feed.innerHTML = data.length ? '' : '<p class="empty">Aún no hay publicaciones en este mundial.</p>';
                 
+                // Modifica la parte del forEach en cargarFeed
                 data.forEach(p => {
+                    // Verificamos si es video o imagen basado en el mimeType
+                    let multimediaHtml = '';
+                    if (p.tipoPublicacion === 1) {
+                    multimediaHtml = `<video src="data:video/mp4;base64,${p.multimedia}" class="post-img" controls></video>`;
+                    } else {
+                        multimediaHtml = `<img src="data:image/*;base64,${p.multimedia}" class="post-img">`;
+                    }
+
                     feed.innerHTML += `
                         <article class="post-card card">
                             <div class="post-header">
@@ -132,11 +180,13 @@ document.addEventListener('DOMContentLoaded', () => {
                                 </div>
                             </div>
                             <p class="post-desc">${p.descripcion}</p>
-                            <img src="data:image/*;base64,${p.multimedia}" class="post-img">
+                            ${multimediaHtml} 
+                            
                             <div class="post-footer">
-                                <button class="btn-like"  data-id=${p.idPublicacion}>❤️ <span id="like-count-${p.idPublicacion}">${p.likes}</span> Likes</button>
+                                <button class="btn-like" data-id=${p.idPublicacion}>❤️ <span id="like-count-${p.idPublicacion}">${p.likes}</span> Likes</button>
                                 <a class="btn-comment" href="index.php?action=publicacion&id=${p.idPublicacion}">💬 ${p.comentarios} Comentarios</a>
                             </div>
+                            
                         </article>
                     `;
                 });

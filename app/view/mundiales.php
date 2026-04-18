@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <div class="padding-container"></div>
                                 <div class="options-mundial">
                                     <a href="index.php?action=foro&id=${m.id}" class="btn-card">Entrar al Foro</a>
+                                    <?php if(isset($_SESSION['user']) && $_SESSION['user']['id'] === 2): ?>
                                     <div class="icon-mundial-container">
                                         <a href="index.php?action=admin_modificar_mundial&id=${m.id}" class="icon-mundial">
                                             <img src="resources/edit.png" alt="editar">
@@ -61,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                             <img src="resources/delete.png" alt="eliminar">
                                         </button>
                                     </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </article>

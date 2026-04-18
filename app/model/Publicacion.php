@@ -120,7 +120,7 @@ class Publicacion {
     public static function crear($data) {
         $db = Database::connect();
         
-        $stmt = $db->prepare("CALL sp_RegistrarPublicacion(?, ?, ?, ?, ?, ?)");
+        $stmt = $db->prepare("CALL sp_RegistrarPublicacion(?, ?, ?, ?, ?, ?, ?)");
         
         return $stmt->execute([
             $data['idMundial'],
@@ -128,7 +128,8 @@ class Publicacion {
             $data['idCategoria'],
             $data['pais'] ?? '', 
             $data['descripcion'], 
-            $data['multimedia']
+            $data['multimedia'],
+            $data['tipoPublicacion']
         ]);
     }
 

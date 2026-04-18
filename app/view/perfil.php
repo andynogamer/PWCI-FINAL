@@ -43,6 +43,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const htmlBuffer = data.map(p => {
                 
                 const fecha = new Date(p.fechaCreacion).toLocaleDateString();
+                let multimediaHtml = '';
+                if (p.tipoPublicacion === 1) {
+                    multimediaHtml = `<video src="data:video/mp4;base64,${p.multimedia}" class="post-img" controls></video>`;
+                } else {
+                    multimediaHtml = `<img src="data:image/*;base64,${p.multimedia}" class="post-img">`;
+                }
                 
                 return `
                     <article class="post-card card">
@@ -54,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                         </div>
                         <p class="post-desc">${p.descripcion}</p>
-                        <img src="data:image/*;base64,${p.multimedia}" class="post-img" alt="Publicación" loading="lazy">
+                        ${multimediaHtml} 
                         <div class="post-footer">
                             <button class="btn-like" data-id="${p.idPublicacion}">
                                 ❤️ <span id="like-count-${p.idPublicacion}">${p.likes}</span> Likes

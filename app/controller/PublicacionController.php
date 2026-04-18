@@ -8,6 +8,25 @@ class PublicacionController{
             $datos['multimedia'] = (isset($_FILES['multimedia']) && $_FILES['multimedia']['error'] == 0) 
                 ? file_get_contents($_FILES['multimedia']['tmp_name']) : null;
 
+            $maxSize = 16 * 1024 * 1024;
+            if ($_FILES['multimedia']['size'] > $maxSize) {
+                $_SESSION['error'] = "El archivo excede el límite de 16MB permitido.";
+                header("Location: " . $_SERVER['HTTP_REFERER']);
+                exit;
+            }
+            $tipoArchivo = $_FILES['multimedia']['type']; // Ejemplo: "image/jpeg" o "video/mp4"
+            $esImagen = strpos($tipoArchivo, 'image') !== false;
+            $esVideo = strpos($tipoArchivo, 'video') !== false;
+
+            if ($esImagen) {
+                $tipoMultimedia = 0;
+            } elseif ($esVideo) {
+                $tipoMultimedia = 1;
+            } else {
+                $tipoMultimedia = 3;
+            }
+
+            $datos['tipoPublicacion'] = $tipoMultimedia;
             if(Publicacion::crear($datos)){
                 header("Location: index.php?action=foro&id=" . $datos['idMundial']);
                 exit;

@@ -298,14 +298,15 @@ CREATE PROCEDURE sp_RegistrarPublicacion(
     IN p_idCategoria int,
     IN p_pais varchar(255),
     IN p_descripcion varchar(800),
-    IN p_multimedia LONGBLOB
+    IN p_multimedia LONGBLOB,
+    IN p_tipoPublicacion tinyint
 )
 BEGIN
     INSERT INTO publicacion (
-        idMundial, idUsuario, idCategoria, pais, descripcion, multimedia
+        idMundial, idUsuario, idCategoria, pais, descripcion, multimedia, tipoPublicacion
     )
     VALUES (
-        p_idMundial, p_idUsuario, p_idCategoria, p_pais, p_descripcion, p_multimedia
+        p_idMundial, p_idUsuario, p_idCategoria, p_pais, p_descripcion, p_multimedia, p_tipoPublicacion
     );
 END //
 --CAMBIOS--
@@ -335,7 +336,7 @@ BEGIN
         idPublicacion, idMundial, nombreMundial, fechaMundial,
         idUsuario, nombreUsuario, apellidoUsuario, fotoUsuario,
         idCategoria, nombreCategoria, paisMencionado, descripcion,
-        multimedia, estatus, fechaCreacion, fechaAprobacion, vistas
+        multimedia, estatus, fechaCreacion, fechaAprobacion, vistas, tipoPublicacion
     FROM vw_PublicacionesInfo
     WHERE idPublicacion = p_id;
 END //
