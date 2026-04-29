@@ -9,7 +9,8 @@
             <?php else: ?>
             <img src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['user']['foto']); ?>" class="foro-logo" alt="Foto de perfil">
             <?php endif; ?>
-            <button class="btn-change-avatar" title="Cambiar foto">+</button>
+            <button class="btn-change-avatar" id="btn-trigger-upload" title="Cambiar foto">+</button>
+            <input type="file" id="input-update-foto" accept="image/jpeg, image/png" style="display: none;">
         </div>
         
         <div>
@@ -149,6 +150,45 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+    });
+
+    document.getElementById('btn-trigger-upload').addEventListener('click', () => {
+        document.getElementById('input-update-foto').click();
+    });
+
+    document.getElementById('input-update-foto').addEventListener('change', function() {
+        const file = this.files[0];
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+            alert('Solo se permiten imágenes');
+            input.value = "";
+            return;
+        }
+
+    
+        const reader = new FileReader();
+        reader.onload = e => document.getElementById('img-avatar-preview').src = e.target.result;
+        reader.readAsDataURL(file);
+
+        
+        const formData = new FormData();
+        formData.append('fotoPerfil', file); 
+
+        
+        fetch('index.php?action=api_update_avatar', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log("Foto actualizada en la base de datos");
+                
+            } else {
+                alert("Error al actualizar la foto: " + data.error);
+            }
+        })
+        .catch(error => console.error("Error de conexión:", error));
     });
 });
 </script>

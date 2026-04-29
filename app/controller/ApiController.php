@@ -70,6 +70,41 @@ private function renderJSON($data) {
         
     }
 
+    public function updateFotoPerfil(){
+        header('Content:Type: application/json');
+        $fotoBinaria = null;
+        if (isset($_FILES['fotoPerfil']) && $_FILES['fotoPerfil']['error'] === UPLOAD_ERR_OK){
+            $fotoBinaria = file_get_contents($_FILES['fotoPerfil']['tmp_name']);
+        }
+       
+        
+        if(!$fotoBinaria){
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'Foto requerida'
+            ]);
+            exit;
+        }else if(!isset($_SESSION['user'])){
+            http_response_code(403);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'Acceso prohibido'
+            ]);
+            exit;
+        }
+        $resultado = Usuario::modificarFoto($fotoBinaria);
+        if(isset($resultado['success'])){
+            $_SESSION['user']['foto'] = $fotoBinaria;
+            echo json_encode($resultado);
+
+        }else{
+            http_response_code(500);
+            echo json_encode($resultado);
+        }
+
+    }
+
     public function updateToAprovePublicacion(){
         header('Content-Type: application/json');
 

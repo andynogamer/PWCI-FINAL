@@ -132,5 +132,32 @@ class Usuario {
         
     }
 
+    public static function modificarFoto($foto){
+        try{
+            
+            $db = Database::connect();
+            $stmt = $db->prepare("
+               CALL sp_CambioFoto(?,?)
+            ");
+            
+            
+            $response = $stmt->execute([
+                $_SESSION['user']['id'],
+                $foto
+            ]);
+
+            return [
+                'success' => $response
+            ];
+            
+
+        }catch(Exception $e){
+            return [
+                'error' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
     
 }

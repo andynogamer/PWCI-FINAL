@@ -111,6 +111,9 @@ switch ($action) {
     case 'api_update_publicacion_aprobada':
         (new ApiController())->updateToAprovePublicacion();
         break;
+    case 'api_update_avatar':
+        (new ApiController())->updateFotoPerfil();
+        break;
 
     case 'api_post_like':
         (new ApiController())->postLike();
