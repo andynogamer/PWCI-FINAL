@@ -4,26 +4,40 @@ require_once __DIR__ . '/../config/database.php';
 class Usuario {
 
     public static function crear($data) {
-        $db = Database::connect();
 
-        $stmt = $db->prepare("
-            INSERT INTO usuario 
-            (tipoUsuario, nombre, apellido, fechaNacimiento, foto, genero,
-             paisNacimiento, nacionalidad, correoElectronico, contrasena)
-            VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ");
+        try{
+            $db = Database::connect();
 
-        return $stmt->execute([
-            $data['nombre'],
-            $data['apellido'],
-            $data['fechaNacimiento'],
-            $data['foto'],
-            $data['genero'],
-            $data['paisNacimiento'],
-            $data['nacionalidad'],
-            $data['correo'],
-            password_hash($data['contrasena'], PASSWORD_DEFAULT)
-        ]);
+            $stmt = $db->prepare("
+                INSERT INTO usuario 
+                (tipoUsuario, nombre, apellido, fechaNacimiento, foto, genero,
+                paisNacimiento, nacionalidad, correoElectronico, contrasena)
+                VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+            
+            
+            
+
+            return ['success' => $stmt->execute([
+                mb_strtoupper(trim($data['nombre'])),
+                mb_strtoupper(trim($data['apellido'])),
+                $data['fechaNacimiento'],
+                $data['foto'],
+                strtoupper(trim($data['genero'])),
+                mb_strtoupper(trim($data['paisNacimiento'])),
+                mb_strtoupper(trim($data['nacionalidad'])),
+                strtolower(trim($data['correo'])),
+                password_hash($data['contrasena'], PASSWORD_DEFAULT)
+            ])];
+
+        }catch(Exception $e){
+            return [ 
+                'success' => false,
+                'message' =>$e->getMessage()
+            ];
+        }
+        
+        
     }
 
     public static function validarUsuario($data){
@@ -100,12 +114,13 @@ class Usuario {
 
     public static function login($correo) {
         try{
+            
             $db = Database::connect();
             $stmt = $db->prepare("
                 CALL sp_ConsultaUsuarioPorCorreo(?)
             ");
 
-            $stmt->execute([$correo]);
+            $stmt->execute([strtolower(trim($correo))]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
 
         }catch(Exception $e){

@@ -638,6 +638,42 @@ main:has(.container) {
     height: 20px;
 }
 
+.avatar-wrapper {
+    position: relative;
+    display: inline-block;
+    width: max-content; /* Obliga al div a medir exactamente los 80px de tu logo */
+}
+
+.btn-change-avatar {
+    position: absolute;
+    /* Al usar valores negativos, el botón sobresaldrá un poquito de la esquina blanca, dándole un efecto 3D muy padre */
+    bottom: -5px; 
+    right: -5px; 
+    
+    background-color: var(--primary, #007bff); /* Usa el color primario de tu paleta */
+    color: white;
+    border: 2px solid #fff; /* Este borde blanco hace que se separe visualmente de tu logo */
+    border-radius: 50%; /* Lo mantiene perfectamente circular */
+    
+    width: 26px;
+    height: 26px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    
+    /* Centramos el + */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Previene que el navegador le agregue relleno extra */
+    
+    transition: transform 0.2s ease;
+}
+
+.btn-change-avatar:hover {
+    transform: scale(1.1);
+}
+
 /* CARDS DE RED SOCIAL */
 .card {
     background: var(--card-bg);
@@ -695,7 +731,9 @@ main:has(.container) {
 
 .post-footer button:hover { color: var(--primary); }
 
-
+.separator{
+    height: 30px;
+}
 
 
 

@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 data.forEach(m => {
-                    
+                    console.log(m);
                     container.innerHTML += `
                         <article class="mundial-card">
                             <div class="card-banner">
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <div class="padding-container"></div>
                                 <div class="options-mundial">
                                     <a href="index.php?action=foro&id=${m.id}" class="btn-card">Entrar al Foro</a>
-                                    <?php if(isset($_SESSION['user']) && $_SESSION['user']['id'] === 2): ?>
+                                    <?php if(isset($_SESSION['user']) && $_SESSION['user']['tipoUsuario'] == 2): ?>
                                     <div class="icon-mundial-container">
                                         <a href="index.php?action=admin_modificar_mundial&id=${m.id}" class="icon-mundial">
                                             <img src="resources/edit.png" alt="editar">

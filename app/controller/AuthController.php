@@ -33,34 +33,40 @@ class AuthController {
     }
 
     public function register() {
-        $error = null;
-
+        
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            
+            
+            header('Content-Type: application/json');
+            
             $datos = $_POST;
-
             $resultado = Usuario::validarUsuario($datos);
 
+            
             if ($resultado[0] === 'error') {
-                $error = $resultado[1]; 
+                echo json_encode(['success' => false, 'error' => $resultado[1]], JSON_UNESCAPED_UNICODE);
+                exit; 
+            } 
+            
+            
+            $fotoBinaria = null;
+            if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+                $fotoBinaria = file_get_contents($_FILES['foto']['tmp_name']);
+            }
+
+            $datos['foto'] = $fotoBinaria;
+
+            $response = Usuario::crear($datos);
+            if ($response['success']) {
+                echo json_encode(['success' => true], JSON_UNESCAPED_UNICODE);
+                exit;
             } else {
-
-                $fotoBinaria = null;
-
-                if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
-                    $fotoBinaria = file_get_contents($_FILES['foto']['tmp_name']);
-                }
-
-                $datos['foto'] = $fotoBinaria;
-
-                if (Usuario::crear($datos)) {
-                    header("Location: index.php?action=login");
-                    exit;
-                } else {
-                    $error = "Error al registrar usuario";
-                }
+                echo json_encode(['success' => false, 'error' => "Error interno al registrar usuario en la base de datos." . $response['message']], JSON_UNESCAPED_UNICODE);
+                exit;
             }
         }
 
+        
         require_once __DIR__ . '/../view/register.php';
     }
 

@@ -2,7 +2,16 @@
 
 <div class="foro-banner" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6));">
     <div class="foro-info">
-        <img src="data:image/*;base64,<?php echo base64_encode($_SESSION['user']['foto']); ?>" class="foro-logo">
+
+        <div class="avatar-wrapper">
+            <?php if(empty($_SESSION['user']['foto'])): ?>
+            <img src="resources/profile-default.png" class="foro-logo" alt="Foto de perfil">
+            <?php else: ?>
+            <img src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['user']['foto']); ?>" class="foro-logo" alt="Foto de perfil">
+            <?php endif; ?>
+            <button class="btn-change-avatar" title="Cambiar foto">+</button>
+        </div>
+        
         <div>
             <h1><?php echo $_SESSION['user']['nombre']; ?>  <?php echo $_SESSION['user']['apellido']; ?></h1>
             <p><?php echo $_SESSION['user']['correoElectronico']; ?></p>
@@ -54,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <article class="post-card card">
                         <div class="post-header">
                             <img src="data:image/*;base64,${p.fotoUsuario}" class="user-avatar" alt="Avatar" loading="lazy">
+                            
                             <div>
                                 <h3>${p.nombreUsuario} ${p.apellidoUsuario}</h3>
                                 <span>${p.nombreCategoria} • ${fecha}</span>
