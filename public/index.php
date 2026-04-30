@@ -78,6 +78,10 @@ switch ($action) {
         (new LikeController())->crearLike();
         break;
 
+    case 'modificar_perfil':
+        (new UsuarioController())->modificarPerfil();
+        break;
+
     
 
     //--API--
@@ -121,6 +125,9 @@ switch ($action) {
 
     case 'api_delete_mundial':
         (new ApiController())->deleteMundial();
+        break;
+    case 'api_update_usuario':
+        (new ApiController())->updatePerfil();
         break;
 
     

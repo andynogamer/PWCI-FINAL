@@ -277,7 +277,25 @@ main:has(.container) {
     border: 2px solid transparent;
     font-size: 1rem;
 }
-
+.btn-update-profile{
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 1.2rem;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    font-size: 1rem;
+    background: var(--primary);
+    color: var(--bg-dark);
+    font-weight: 800;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: var(--transition);
+}
+.btn-update-profile:hover{
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
 .container form input, .container form select {
     background: var(--input-bg);
     color: white;
@@ -609,6 +627,7 @@ main:has(.container) {
     background-position: center;
     display: flex;
     align-items: flex-end;
+    justify-content: space-between;
     padding: 2rem 5%;
 }
 

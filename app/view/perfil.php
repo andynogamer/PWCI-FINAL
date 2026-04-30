@@ -18,6 +18,9 @@
             <p><?php echo $_SESSION['user']['correoElectronico']; ?></p>
         </div>
     </div>
+    <div>
+        <a href="index.php?action=modificar_perfil" class="btn-update-profile">Modificar perfil</a>
+    </div>
 </div>
 
 <div class="foro-container">

@@ -70,6 +70,40 @@ private function renderJSON($data) {
         
     }
 
+    public function updatePerfil(){
+        header('Content:Type: application/json');
+        if (!$_SERVER['REQUEST_METHOD'] === 'POST') {
+            http_response_code(500);
+            echo json_encode(['error' => true, 'message' => 'Algo salio mal...']);
+            exit;
+        }
+        $validacion = Usuario::validarUsuarioAlModificar($_POST);
+        if(is_array($validacion) && $validacion[0] == 'error'){
+            http_response_code(400);
+            echo json_encode($validacion);
+            exit;
+        }
+        
+        
+        $resultado = Usuario::modificarUsuario($_POST);
+        if(isset($resultado['success'])){
+            $_SESSION['user']['nombre'] = $_POST['nombre'];
+            $_SESSION['user']['apellido'] = $_POST['apellido'];
+            $_SESSION['user']['fechaNacimiento'] = $_POST['fechaNacimiento'];
+            $_SESSION['user']['genero'] = $_POST['genero'];
+            $_SESSION['user']['paisNacimiento'] = $_POST['paisNacimiento'];
+            $_SESSION['user']['nacionalidad'] = $_POST['nacionalidad'];
+            
+            
+            echo json_encode($resultado);
+
+        }else{
+            http_response_code(500);
+            echo json_encode($resultado);
+        }
+        
+    }
+
     public function updateFotoPerfil(){
         header('Content:Type: application/json');
         $fotoBinaria = null;

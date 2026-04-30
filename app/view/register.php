@@ -40,7 +40,7 @@
 </div>
 
 <script>
-// --- LÓGICA DE PREVISUALIZACIÓN DE IMAGEN ---
+
 document.querySelectorAll('.profile-upload').forEach(container => {
     const input = container.querySelector('input[type="file"]');
     const img = container.querySelector('img');
@@ -69,23 +69,23 @@ document.querySelectorAll('.profile-upload').forEach(container => {
     });
 });
 
-// --- LÓGICA AJAX ---
+
 document.getElementById('formRegistro').addEventListener('submit', function(e) {
-    e.preventDefault(); // Detenemos la recarga de página
+    e.preventDefault(); 
 
     const form = this;
     const formData = new FormData(form);
     const divError = document.getElementById('errorAjax');
     const btnSubmit = document.getElementById('btnSubmit');
 
-    // Estado de carga (evita múltiples clics)
+    
     btnSubmit.disabled = true;
     btnSubmit.innerText = "Registrando...";
     divError.style.display = 'none'; 
 
     fetch(form.action, {
         method: 'POST',
-        body: formData // Fetch procesa archivos y textos automáticamente
+        body: formData 
     })
     .then(response => response.json()) 
     .then(data => {
@@ -93,10 +93,10 @@ document.getElementById('formRegistro').addEventListener('submit', function(e) {
         btnSubmit.innerText = "Registrarse";
 
         if (data.success) {
-            // Éxito: Redirigir al login
+            
             window.location.href = 'index.php?action=login';
         } else {
-            // Error: Mostrar el mensaje de validación del modelo
+            
             divError.innerHTML = data.error;
             divError.style.display = 'block';
         }
