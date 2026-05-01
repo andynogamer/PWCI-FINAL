@@ -23,13 +23,18 @@
                 <textarea name="descripcion" placeholder="¿Qué estás pensando?" required></textarea>
             </div>
 
+            <div class="container-img-post-preview">
+                <img class="img-post-preview" src="resources/meme-example.jpg" alt="">
+                <video class="video-post-preview" src="" controls></video>
+            </div>
+
             <div class="fb-divider"></div>
 
             <div class="fb-post-actions">
-                <label class="action-btn">
+                <input type="file" name="multimedia" accept="image/*,video/mp4" required hidden>
+                <button class="action-btn">
                     <img src="resources/add-multimedia.png" alt="photo"> 
-                    <input type="file" name="multimedia" accept="image/*,video/mp4" required hidden>
-                </label>
+                </button>
 
                 <select name="pais" id="select-pais" >
                     
@@ -260,5 +265,63 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     });
+
+    document.querySelectorAll('.create-post').forEach(container => {
+        const input = container.querySelector('input[type="file"]');
+        const img = container.querySelector('.img-post-preview');
+        const button = container.querySelector('.action-btn');
+        const video = container.querySelector('.video-post-preview');
+        const MAX_FILE_SIZE = 16 * 1024 * 1024;
+
+        button.addEventListener('click', (e) => {
+            
+            e.preventDefault();
+            
+            input.click();
+        });
+
+        input.addEventListener('change', function () {
+            const file = this.files[0];
+            
+            if (!file) return;
+
+            if (file.size > MAX_FILE_SIZE) {
+                alert("El archivo es demasiado pesado (Máximo 16MB).");
+                this.value = ""; // Limpia el input
+                
+                return;
+            }
+
+            const reader = new FileReader();
+            const isVideo = file.type.startsWith('video/');
+            const isImage = file.type.startsWith('image/');
+
+            reader.onload = function(e) {
+                
+                if (isImage) {
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    video.style.display = 'none';
+                } else if (isVideo) {
+                    video.src = e.target.result;
+                    video.style.display = 'block';
+                    img.style.display = 'none';
+                }else{
+                    alert('Solo se permiten imágenes y video');
+                    input.value = "";
+                    return;
+                }
+            };
+
+            
+            
+
+            
+
+            
+            reader.readAsDataURL(file);
+        });
+    });
+
 });
 </script>

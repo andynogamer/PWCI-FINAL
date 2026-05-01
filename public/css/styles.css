@@ -494,6 +494,24 @@ main:has(.container) {
         gap: 10px !important;
     }
 }
+.container-img-post-preview{
+    max-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    
+}
+.img-post-preview{
+    display: none;
+    max-height: 250px;
+    padding-top: 20px;
+}
+
+.video-post-preview{
+    display: none;
+    max-height: 250px;
+    padding-top: 20px;
+}
 
 .fb-post-actions {
     display: grid;
