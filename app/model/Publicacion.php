@@ -15,6 +15,7 @@ class Publicacion {
             $p['likes'] = self::obtenerLikes($p['idPublicacion']);
             $p['comentarios'] = self::obtenerTotalComentarios($p['idPublicacion']);
             if ($p['multimedia']) $p['multimedia'] = base64_encode($p['multimedia']);
+            if ($p['fotoUsuario']) $p['fotoUsuario'] = base64_encode($p['fotoUsuario']);
         }
         return $publicaciones;
     }
@@ -38,6 +39,7 @@ class Publicacion {
             $p['likes'] = self::obtenerLikes($p['idPublicacion']);
             $p['comentarios'] = self::obtenerTotalComentarios($p['idPublicacion']);
             if ($p['multimedia']) $p['multimedia'] = base64_encode($p['multimedia']);
+            if ($p['fotoUsuario']) $p['fotoUsuario'] = base64_encode($p['fotoUsuario']);
         }
         return $publicaciones;
     }
@@ -59,6 +61,7 @@ class Publicacion {
             $p['likes'] = self::obtenerLikes($p['idPublicacion']);
             $p['comentarios'] = self::obtenerTotalComentarios($p['idPublicacion']);
             if ($p['multimedia']) $p['multimedia'] = base64_encode($p['multimedia']);
+            if ($p['fotoUsuario']) $p['fotoUsuario'] = base64_encode($p['fotoUsuario']);
         }
             
         return $publicaciones;

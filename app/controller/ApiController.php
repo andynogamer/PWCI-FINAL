@@ -65,6 +65,7 @@ private function renderJSON($data) {
     public function getPublicacionesPendientes(){
         
         $publicaciones = Publicacion::listarPorPendientes();
+        
         $this->renderJSON($publicaciones);
 
         
