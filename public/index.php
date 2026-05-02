@@ -130,6 +130,14 @@ switch ($action) {
         (new ApiController())->updatePerfil();
         break;
 
+    case 'api_post_comentario':
+        (new ApiController())->postComentario();
+        break;
+
+    case 'api_get_comentarios':
+        (new ApiController())->getComentariosPorPublicacion();
+        break;
+
     
     default:
         header("Location: index.php?action=mundiales");

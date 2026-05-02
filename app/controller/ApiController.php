@@ -70,6 +70,23 @@ private function renderJSON($data) {
 
         
     }
+    public function getComentariosPorPublicacion(){
+        $idPublicacion = $_GET['idPublicacion'] ?? null;
+        if(!isset($_SESSION)){
+            http_response_code(403);
+            echo json_encode(['error' => 'Acceso prohibido']);
+            exit;
+        }
+        if($idPublicacion == null){
+            http_response_code(400);
+            echo json_encode(['error' => 'Id requerido']);
+            exit;
+        }
+
+        $comentarios = Comentario::listarPorPublicacion($idPublicacion);
+        $this->renderJSON($comentarios);
+
+    }
 
     public function updatePerfil(){
         header('Content:Type: application/json');
@@ -200,6 +217,55 @@ private function renderJSON($data) {
         }
 
 
+    }
+
+    public function postComentario(){
+        header('Content-Type: application/json');
+        $input = json_decode(file_get_contents("php://input"), true);
+        $idPublicacion = $input['idPublicacion'] ?? null;
+        $idPadre = (!empty($input['idComentarioPadre'])) ? $input['idComentarioPadre']: null;
+        $comentario = (trim($input['comentario']));
+        if(!isset($_SESSION['user'])){
+            http_response_code(403);
+            echo json_encode(['error' => 'Es necesario iniciar sesión'], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+        if($comentario == ''){
+            http_response_code(400);
+            echo json_encode([
+                'error' => 'Comentario Requerido'
+
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+        if(!$idPublicacion){
+            http_response_code(400);
+            echo json_encode([
+                'error' => 'Publicación requerida'
+
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        $data = [
+            'idPublicacion' => $idPublicacion,
+            'idPadre' => $idPadre,
+            'comentario' => $comentario
+        ];
+
+        $resultado = Comentario::crear($data);
+
+        
+
+        if(isset($resultado['success'])){
+            echo json_encode([
+                'success' => true
+            ]);
+        } else{
+            
+            http_response_code(500);
+            echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
+        }
     }
 
     public function getLikes(){

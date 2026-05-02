@@ -9,6 +9,12 @@ class Comentario{
             $stmt->execute([$id]);
             $comentarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            
+
+            foreach ($comentarios as &$com){
+                if ($com['fotoUsuario']) $com['fotoUsuario'] = base64_encode($com['fotoUsuario']);
+            }
+
             return $comentarios;
         }catch (PDOException $e) {
             return [

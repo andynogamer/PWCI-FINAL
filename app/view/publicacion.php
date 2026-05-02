@@ -45,28 +45,13 @@
                         
                     </div>
 
-                    <div class="lista-comentarios">
-                        <?php /*var_dump($comentarios); exit;*/if ($comentarios): ?>
-                            
-                            <?php foreach ($comentarios as $c): ?>
-                                <div class="comentario">
-                                    <img src="data:image/jpeg;base64, <?= $c['fotoUsuario'] ?>" class="foto-perfil" style="width: 35px; height: 35px;">
-                                    <div class="comentario-texto">
-                                        <strong><?= htmlspecialchars($c['nombreUsuario'] . " " . $c['apellidoUsuario']) ?></strong>
-                                        <p><?= htmlspecialchars($c['texto']) ?></p>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <h2>¡Se el primero en comentar!</h2>
-                        <?php endif; ?>
-                        
+                    <div class="lista-comentarios" id="lista-comentarios">
                         
                     </div>
                 </div>
 
                 <footer class="footer-comentarios">
-                    <form  method="POST" action="index.php?action=crear_comentario">
+                    <form  id="form-comentario">
                         <input type="hidden" name="idPublicacion" value="<?php echo $publicacion['idPublicacion'] ?>">
                         <input type="hidden" name="idComentarioPadre" value="">
                         <textarea name="comentario" placeholder="Escribe un comentario..." required></textarea>
@@ -90,36 +75,71 @@
         }
     }
     document.addEventListener( 'DOMContentLoaded', ()=> {
+        const idPublicacion = <?php echo $publicacion['idPublicacion']; ?>;
+        console.log(idPublicacion)
+        const feedComment = document.getElementById('lista-comentarios');
+        function cargarComentarios() {
+            fetch(`index.php?action=api_get_comentarios&idPublicacion=${idPublicacion}`)
+            .then(res => res.json())
+            .then(data => {
+                if (!data.length) {
+                    feed.innerHTML = '<h2>¡Se el primero en comentar!</h2>';
+                    return;
+                }
+
+                
+                const htmlBuffer = data.map(c => {
+                    
+                    
+                    
+                    
+                    return `
+                        <div class="comentario">
+                            <img src="data:image/jpeg;base64,${c.fotoUsuario}" class="foto-perfil" style="width: 35px; height: 35px;">
+                            <div class="comentario-texto">
+                                <strong>${c.nombreUsuario} ${c.apellidoUsuario}</strong>
+                                <p>${c.texto}</p>
+                            </div>
+                        </div>
+                        
+                    `;
+                }).join(''); // Unimos todo en un solo string
+
+                // 2. Una sola actualización del DOM
+                feedComment.innerHTML = htmlBuffer;
+            });
+        }
+        cargarComentarios();
         function cargarLikes(idPublicacion){
                 
-                fetch('index.php?action=api_get_likes', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ id: idPublicacion })
+            fetch('index.php?action=api_get_likes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: idPublicacion })
 
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        
-                        const contador = document.getElementById(`like-count`);
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    
+                    const contador = document.getElementById(`like-count`);
 
-                        if(contador){
-                            
-                            contador.textContent = data.response;
-                        }
+                    if(contador){
                         
-                        
-                    } else {
-                        alert("Error: " + data.mensaje);
+                        contador.textContent = data.response;
                     }
-                })
-                .catch(err => {
-                    console.error(err);
-                    alert("Error en la petición");
-                });
+                    
+                    
+                } else {
+                    alert("Error: " + data.mensaje);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("Error en la petición");
+            });
         }
 
         document.getElementById('interaccion-container').addEventListener('click', (e) => {
@@ -151,6 +171,57 @@
             }
 
         });
+
+
+        const formComentario = document.getElementById('form-comentario');
+    
+    if (formComentario) {
+        formComentario.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+            
+            
+            const formData = new FormData(formComentario);
+            
+            
+            const payload = Object.fromEntries(formData.entries());
+
+            try {
+                
+                const btnSubmit = formComentario.querySelector('button[type="submit"]');
+                btnSubmit.disabled = true;
+
+                
+                const response = await fetch('index.php?action=api_post_comentario', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' 
+                    },
+                    body: JSON.stringify(payload) // Convertimos el objeto a JSON
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    
+                    formComentario.reset(); 
+                    cargarComentarios();
+                    
+                    
+                } else {
+                    console.error("Error del servidor:", data.mensaje);
+                    alert("No se pudo publicar: " + (data.mensaje || "Error desconocido"));
+                }
+
+            } catch (error) {
+                console.error('Error de conexión:', error);
+                alert('Hubo un problema de conexión al intentar comentar.');
+            } finally {
+                
+                const btnSubmit = formComentario.querySelector('button[type="submit"]');
+                btnSubmit.disabled = false;
+            }
+        });
+    }
 
     });
 </script>
