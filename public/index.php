@@ -119,6 +119,10 @@ switch ($action) {
         (new ApiController())->updateFotoPerfil();
         break;
 
+    case 'api_update_vistas':
+        (new ApiController())->updateVista();
+        break;
+
     case 'api_post_like':
         (new ApiController())->postLike();
         break;

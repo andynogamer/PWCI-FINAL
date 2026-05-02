@@ -323,6 +323,17 @@ BEGIN
     WHERE id = p_idPublicacion;
 END //
 
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_NuevaVista //
+CREATE PROCEDURE sp_NuevaVista(
+    IN p_idPublicacion int
+)
+BEGIN
+    UPDATE publicacion
+    SET vistas = vistas + 1
+    WHERE id = p_idPublicacion;
+END //
+
 
 --BAJA--
 
@@ -376,6 +387,8 @@ BEGIN
     WHERE estatus = false
     ORDER BY fechaCreacion ASC;
 END //
+
+
 
 --QUEDA PENDIENTE PUBLICACIONES POR BUSQUEDA
 

@@ -80,6 +80,29 @@
         const idPublicacion = <?php echo $publicacion['idPublicacion']; ?>;
         
         const feedComment = document.getElementById('lista-comentarios');
+
+        
+        fetch('index.php?action=api_update_vistas', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: idPublicacion })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                console.log("vista agregada")
+            } else{
+                
+                alert("Error: " + data.error);
+            }
+        })
+        .catch(err => {
+            
+            console.error(err);
+            alert("Error en la petición");
+        });
         
         function cargarComentarios() {
             fetch(`index.php?action=api_get_comentarios&idPublicacion=${idPublicacion}`)

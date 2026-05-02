@@ -168,4 +168,19 @@ class Publicacion {
         }
     }
 
+    public static function agregarVista($id){
+        try{
+            $db = Database::connect();
+            $stmt = $db->prepare("CALL sp_NuevaVista(?)");
+            $stmt->execute([$id]);
+
+            return true;
+        } catch (PDOException $e){
+            return [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
 }
