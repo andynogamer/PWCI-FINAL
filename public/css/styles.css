@@ -749,6 +749,7 @@ main:has(.container) {
     gap: 2rem;
     border-top: 1px solid #334155;
     padding-top: 1rem;
+    align-items: center;
 }
 
 .post-footer button {
@@ -767,6 +768,18 @@ main:has(.container) {
     cursor: pointer;
     font-weight: 600;
     font-size: 16px;
+}
+
+.post-footer div {
+    display:flex;
+    min-width: 85px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 16px;
+    margin-left: auto;
+    justify-content: space-between;
 }
 
 

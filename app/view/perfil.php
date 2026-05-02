@@ -82,6 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             <a class="btn-comment" href="index.php?action=publicacion&id=${p.idPublicacion}">
                                 💬 ${p.comentarios} Comentarios
                             </a>
+                            <div class="container-views">
+                                <img src="resources/eye.png" alt="vistas">
+                                <span>${p.vistas}</span> Vistas
+                            </div>
                         </div>
                     </article>
                 `;
