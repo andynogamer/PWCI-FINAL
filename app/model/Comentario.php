@@ -50,4 +50,20 @@ class Comentario{
         }
 
     }
+
+    public static function eliminar($id){
+        try{
+            $db = Database::connect();
+            $stmt = $db->prepare("CALL sp_BajaComentario(?)");
+            $stmt->execute([
+                $id
+            ]);
+            return ['success' => true];
+        }catch(Exception $e){
+            return [
+                'error' => true,
+                'mensaje' => $e->getMessage()
+            ];
+        }
+    }
 }

@@ -343,5 +343,28 @@ private function renderJSON($data) {
 
         exit;
     }
+
+    public function deleteComentario(){
+        header('Content-Type: application/json');
+        $input = json_decode(file_get_contents("php://input"), true);
+        $idComentario = $input['id'] ?? null;
+
+        if (!$idComentario) {
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'ID requerido'
+            ]);
+            exit;
+        }
+        
+        $resultado = Comentario::eliminar($idComentario);
+        if(isset($resultado['success']) && $resultado['success']){
+            echo json_encode(['success' => true]);
+        }else{
+            http_response_code(500);
+            echo json_encode($resultado);
+        }
+    }
         
 }

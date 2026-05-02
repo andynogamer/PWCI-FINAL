@@ -74,10 +74,13 @@
             window.location.href = "index.php";
         }
     }
+
+    
     document.addEventListener( 'DOMContentLoaded', ()=> {
         const idPublicacion = <?php echo $publicacion['idPublicacion']; ?>;
-        console.log(idPublicacion)
+        
         const feedComment = document.getElementById('lista-comentarios');
+        
         function cargarComentarios() {
             fetch(`index.php?action=api_get_comentarios&idPublicacion=${idPublicacion}`)
             .then(res => res.json())
@@ -100,6 +103,11 @@
                                 <strong>${c.nombreUsuario} ${c.apellidoUsuario}</strong>
                                 <p>${c.texto}</p>
                             </div>
+                            <?php if(isset($_SESSION['user']) && $_SESSION['user']['tipoUsuario'] == 2): ?>
+                            <button class="btn-delete-comentario" data-id="${c.idComentario}">
+                                <img src="resources/delete.png" alt="eliminar">
+                            </button>
+                            <?php endif; ?>
                         </div>
                         
                     `;
@@ -110,6 +118,7 @@
             });
         }
         cargarComentarios();
+        
         function cargarLikes(idPublicacion){
                 
             fetch('index.php?action=api_get_likes', {
@@ -222,6 +231,43 @@
             }
         });
     }
+    document.getElementById('lista-comentarios').addEventListener('click', (e) => {
+
+        const deleteBtn = e.target.closest('.btn-delete-comentario');
+        
+        if (deleteBtn) {
+            
+            const id = deleteBtn.dataset.id;
+            
+            
+            if (!confirm('¿Estás seguro de eliminar este comentario?')) return;
+            
+            fetch('index.php?action=api_delete_comentario', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: id })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    
+
+                    cargarComentarios();
+                } else{
+                    
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(err => {
+                
+                console.error(err);
+                alert("Error en la petición");
+            });
+        }
+
+    });
 
     });
 </script>

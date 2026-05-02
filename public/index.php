@@ -130,6 +130,10 @@ switch ($action) {
         (new ApiController())->deleteToAprovePublicacion();
         break;
         
+    case 'api_delete_comentario':
+        (new ApiController())->deleteComentario();
+        break;
+
     case 'api_update_usuario':
         (new ApiController())->updatePerfil();
         break;
@@ -141,6 +145,8 @@ switch ($action) {
     case 'api_get_comentarios':
         (new ApiController())->getComentariosPorPublicacion();
         break;
+
+    
 
     
     default:
