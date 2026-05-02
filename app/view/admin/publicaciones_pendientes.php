@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             ${multimediaHtml} 
                             <div class="post-footer">
                                 <button class="btn-aprobar" data-id="${p.idPublicacion}"> Aprobar</button>
-                                <button class="btn-comment" data-id="${p.idPublicacion}"> Eliminar</button>
+                                <button class="btn-eliminar" data-id="${p.idPublicacion}"> Eliminar</button>
                             </div>
                         </article>
                     `;
@@ -75,6 +75,34 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             if (data.success) {
                 alert("Publicación aprobada ");
+                cargarFeed(); 
+            } else {
+                alert("Error: " + data.mensaje);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Error en la petición");
+        });
+    }
+
+    if (e.target.classList.contains('btn-eliminar')) {
+        
+        const id = e.target.dataset.id;
+
+        if (!confirm('¿Estás seguro de eliminar esta publicación?')) return;
+
+        fetch('index.php?action=api_delete_publicacion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: id })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert("Publicación eliminada");
                 cargarFeed(); 
             } else {
                 alert("Error: " + data.mensaje);

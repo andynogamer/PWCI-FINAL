@@ -326,6 +326,18 @@ END //
 
 --BAJA--
 
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS sp_EliminarPublicacion //
+CREATE PROCEDURE sp_EliminarPublicacion(
+    IN p_idPublicacion int
+)
+BEGIN
+    UPDATE publicacion 
+    SET estatus = 2
+    WHERE id = p_idPublicacion;
+END //
+
 
 --CONSULTA--
 DELIMITER //

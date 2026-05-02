@@ -126,6 +126,10 @@ switch ($action) {
     case 'api_delete_mundial':
         (new ApiController())->deleteMundial();
         break;
+    case 'api_delete_publicacion':
+        (new ApiController())->deleteToAprovePublicacion();
+        break;
+        
     case 'api_update_usuario':
         (new ApiController())->updatePerfil();
         break;

@@ -152,4 +152,20 @@ class Publicacion {
         }
     }
 
+    public static function eliminar($id){
+        try {
+            $db = Database::connect();
+            $stmt = $db->prepare("CALL sp_EliminarPublicacion(?)");
+            $stmt->execute([$id]);
+
+            return true;
+
+        } catch (PDOException $e) {
+            return [
+                'error' => true,
+                'mensaje' => $e->getMessage()
+            ];
+        }
+    }
+
 }

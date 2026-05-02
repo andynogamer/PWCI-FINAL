@@ -314,5 +314,34 @@ private function renderJSON($data) {
             echo json_encode($resultado);
         }
     }
+
+    public function deleteToAprovePublicacion(){
+        header('Content-Type: application/json');
+
+        $input = json_decode(file_get_contents("php://input"), true);
+        $id = $input['id'] ?? null;
+
+        if (!$id) {
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'ID requerido'
+            ]);
+            exit;
+        }
+
+        $resultado = Publicacion::eliminar($id);
+
+        if ($resultado === true) {
+            echo json_encode([
+                'success' => true
+            ]);
+        } else {
+            http_response_code(500);
+            echo json_encode($resultado);
+        }
+
+        exit;
+    }
         
 }
