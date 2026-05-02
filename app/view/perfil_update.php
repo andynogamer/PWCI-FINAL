@@ -41,6 +41,7 @@
         </div>
 
         <button type="submit" id="btnSubmit">Actualizar</button>
+        <a href="index.php?action=cambiar_contrasena&id=<?php echo $_SESSION['user']['id'] ?>">Cambiar contraseña</a>
     </form>
     
 </div>

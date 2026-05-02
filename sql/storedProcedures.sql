@@ -51,7 +51,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS sp_CambioContrasena // #CONTRASENA
 CREATE PROCEDURE sp_CambioContrasena(
     IN p_id int,
-    IN p_contrasena varchar(50)
+    IN p_contrasena varchar(255)
 )
 BEGIN
     UPDATE usuario

@@ -213,6 +213,29 @@ class Usuario {
         }
     }
 
+    public static function updateContrasena($contrasena){
+        try{
+            $db = Database::connect();
+            $stmt = $db->prepare("
+                CALL sp_CambioContrasena(?,?)
+            ");
+            $isSuccess = $stmt->execute([
+                $_SESSION['user']['id'],
+                password_hash($contrasena, PASSWORD_DEFAULT)
+            ]);
+            return[
+                'success' => $isSuccess
+            ];
+
+
+        }catch(PDOException $e){
+            return[
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
     
     public static function validarUsuarioAlModificar($data){
 

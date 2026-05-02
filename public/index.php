@@ -82,7 +82,13 @@ switch ($action) {
         (new UsuarioController())->modificarPerfil();
         break;
 
+    case 'cambiar_contrasena':
+        (new UsuarioController())->modificarContrasena();
+        break;
     
+    case 'update_contrasena':
+        (new UsuarioController())->newContrasena();
+        break;
 
     //--API--
     case 'api_get_mundiales':
