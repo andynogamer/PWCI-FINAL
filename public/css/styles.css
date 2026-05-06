@@ -842,7 +842,7 @@ main:has(.container) {
     background: #475569;
 }
 
-.fb-post-actions select {
+.fb-post-actions select, #ordenPublicaciones {
     background: #334155;
     color: white;
     border: none;

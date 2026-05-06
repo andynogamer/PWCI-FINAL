@@ -48,6 +48,52 @@ private function renderJSON($data) {
         exit;
     }
 
+    public function getPublicacionesFilteredByLikes(){
+        header('Content-Type: application/json');
+        $input = json_decode(file_get_contents("php://input"), true);
+        $idMundial = $input['id'] ?? null;
+        if(!$idMundial){
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'ID requerido'
+            ]);
+            exit;
+        }
+        
+        $response =  Publicacion::listarPorMundialByLikes($idMundial);
+
+        if($response['success']){
+            $this->renderJSON($response);
+        }else{
+            http_response_code(500);
+            $this->renderJSON($response);
+        }
+    }
+
+    public function getPublicacionesFilteredByComentarios(){
+        header('Content-Type: application/json');
+        $input = json_decode(file_get_contents("php://input"), true);
+        $idMundial = $input['id'] ?? null;
+        if(!$idMundial){
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'ID requerido'
+            ]);
+            exit;
+        }
+        
+        $response =  Publicacion::listarPorMundialByComentarios($idMundial);
+
+        if($response['success']){
+            $this->renderJSON($response);
+        }else{
+            http_response_code(500);
+            $this->renderJSON($response);
+        }
+    }
+
     public function getPublicacionesUsuario() {
         $idRequest = $_GET['idUsuario'] ?? null;
         $idSession = $_SESSION['user']['id'];

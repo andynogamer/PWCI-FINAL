@@ -8,6 +8,16 @@
             <p><?php echo $mundial['sede']; ?> • <?php echo date('Y', strtotime($mundial['fecha'])); ?></p>
         </div>
     </div>
+    <div class="foro-filter" id="foroFilter">
+        
+        <select id="ordenPublicaciones">
+            <option value="" disabled selected>Filtrar publicaciones</option>
+            <option value="cronologico" >Orden cronológico</option>
+            <option value="pais">País</option>
+            <option value="likes">Más likes</option>
+            <option value="comentarios">Más comentarios</option>
+        </select>
+    </div>
 </div>
 
 <div class="foro-container">
@@ -265,6 +275,125 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
     });
+
+    const selectOrden = document.getElementById('ordenPublicaciones');
+    selectOrden.addEventListener('change', function(){
+        const orden = this.value;
+        if (orden == "likes"){
+            
+            fetch('index.php?action=api_get_publicaciones_by_likes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: idMundial })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const feed = document.getElementById('feed-publicaciones');
+                    
+                    feed.innerHTML = data.data.length ? '' : '<p class="empty">Aún no hay publicaciones en este mundial.</p>';
+                    data.data.forEach(p => {
+                        // Verificamos si es video o imagen basado en el mimeType
+                        let multimediaHtml = '';
+                        if (p.tipoPublicacion === 1) {
+                        multimediaHtml = `<video src="data:video/mp4;base64,${p.multimedia}" class="post-img" controls></video>`;
+                        } else {
+                            multimediaHtml = `<img src="data:image/*;base64,${p.multimedia}" class="post-img">`;
+                        }
+
+                        feed.innerHTML += `
+                            <article class="post-card card">
+                                <div class="post-header">
+                                    <img src="data:image/*;base64,${p.fotoUsuario}" class="user-avatar">
+                                    <div>
+                                        <h3>${p.nombreUsuario} ${p.apellidoUsuario}</h3>
+                                        <span>${p.nombreCategoria} • ${new Date(p.fechaCreacion).toLocaleDateString()}</span>
+                                    </div>
+                                </div>
+                                <p class="post-desc">${p.descripcion}</p>
+                                ${multimediaHtml} 
+                                
+                                <div class="post-footer">
+                                    <button class="btn-like" data-id=${p.idPublicacion}>❤️ <span id="like-count-${p.idPublicacion}">${p.likes}</span> Likes</button>
+                                    <a class="btn-comment" href="index.php?action=publicacion&id=${p.idPublicacion}">💬 ${p.comentarios} Comentarios</a>
+                                </div>
+                                
+                            </article>
+                        `;
+                    });
+                    
+                    
+                } else{
+                    
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(err => {
+                
+                console.error(err);
+                alert("Error en la petición");
+            });
+        }else if(orden == "cronologico"){
+            cargarFeed();
+        }else if(orden == "comentarios"){
+            fetch('index.php?action=api_get_publicaciones_by_comentarios', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: idMundial })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    const feed = document.getElementById('feed-publicaciones');
+                    
+                    feed.innerHTML = data.data.length ? '' : '<p class="empty">Aún no hay publicaciones en este mundial.</p>';
+                    data.data.forEach(p => {
+                        // Verificamos si es video o imagen basado en el mimeType
+                        let multimediaHtml = '';
+                        if (p.tipoPublicacion === 1) {
+                        multimediaHtml = `<video src="data:video/mp4;base64,${p.multimedia}" class="post-img" controls></video>`;
+                        } else {
+                            multimediaHtml = `<img src="data:image/*;base64,${p.multimedia}" class="post-img">`;
+                        }
+
+                        feed.innerHTML += `
+                            <article class="post-card card">
+                                <div class="post-header">
+                                    <img src="data:image/*;base64,${p.fotoUsuario}" class="user-avatar">
+                                    <div>
+                                        <h3>${p.nombreUsuario} ${p.apellidoUsuario}</h3>
+                                        <span>${p.nombreCategoria} • ${new Date(p.fechaCreacion).toLocaleDateString()}</span>
+                                    </div>
+                                </div>
+                                <p class="post-desc">${p.descripcion}</p>
+                                ${multimediaHtml} 
+                                
+                                <div class="post-footer">
+                                    <button class="btn-like" data-id=${p.idPublicacion}>❤️ <span id="like-count-${p.idPublicacion}">${p.likes}</span> Likes</button>
+                                    <a class="btn-comment" href="index.php?action=publicacion&id=${p.idPublicacion}">💬 ${p.comentarios} Comentarios</a>
+                                </div>
+                                
+                            </article>
+                        `;
+                    });
+                    
+                    
+                } else{
+                    
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(err => {
+                
+                console.error(err);
+                alert("Error en la petición");
+            });
+        }
+    })
 
     document.querySelectorAll('.create-post').forEach(container => {
         const input = container.querySelector('input[type="file"]');

@@ -156,6 +156,14 @@ switch ($action) {
         (new ApiController())->getComentariosPorPublicacion();
         break;
 
+    case 'api_get_publicaciones_by_likes':
+        (new ApiController())->getPublicacionesFilteredByLikes();
+        break;
+
+    case 'api_get_publicaciones_by_comentarios':
+        (new ApiController())->getPublicacionesFilteredByComentarios();
+        break;
+
     
 
     
