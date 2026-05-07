@@ -71,6 +71,61 @@ private function renderJSON($data) {
         }
     }
 
+    public function getPaisesPublicacionByMundial(){
+        header('Content-Type: application/json');
+        $input = json_decode(file_get_contents("php://input"), true);
+        $idMundial = $input['id'] ?? null;
+        if(!$idMundial){
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'ID requerido'
+            ]);
+            exit;
+        }
+        
+        $response =  Publicacion::listarPaises($idMundial);
+
+        if($response['success']){
+            $this->renderJSON($response);
+        }else{
+            http_response_code(500);
+            $this->renderJSON($response);
+        }
+    }
+
+    public function getPublicacionesFilteredByPais(){
+        header('Content-Type: application/json');
+        $input = json_decode(file_get_contents("php://input"), true);
+        $idMundial = $input['id'] ?? null;
+        $pais = $input['pais'] ?? null;
+        if(!$idMundial){
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'ID requerido'
+            ]);
+            exit;
+        }
+        if(!$pais){
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'Pais requerido'
+            ]);
+            exit;
+        }
+        
+        $response =  Publicacion::listarPorMundialByPais($idMundial, $pais);
+
+        if($response['success']){
+            $this->renderJSON($response);
+        }else{
+            http_response_code(500);
+            $this->renderJSON($response);
+        }
+    }
+
     public function getPublicacionesFilteredByComentarios(){
         header('Content-Type: application/json');
         $input = json_decode(file_get_contents("php://input"), true);

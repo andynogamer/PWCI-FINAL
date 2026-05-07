@@ -164,8 +164,13 @@ switch ($action) {
         (new ApiController())->getPublicacionesFilteredByComentarios();
         break;
 
-    
+    case 'api_get_paisespublicacion_by_mundial':
+        (new ApiController())->getPaisesPublicacionByMundial();
+        break;
 
+    case 'api_get_publicaciones_by_pais':
+        (new ApiController())->getPublicacionesFilteredByPais();
+        break;
     
     default:
         header("Location: index.php?action=mundiales");

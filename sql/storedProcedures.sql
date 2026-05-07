@@ -388,6 +388,19 @@ BEGIN
     ORDER BY fechaCreacion ASC;
 END //
 
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_ConsultarPaisesPublicacionPorMundial //
+CREATE PROCEDURE sp_ConsultarPaisesPublicacionPorMundial(
+    IN p_idMundial int
+)
+BEGIN
+    SELECT
+        pais
+    FROM publicacion
+    WHERE estatus = true AND idMundial = p_idMundial 
+    ORDER BY pais DESC;
+END //
+
 
 
 --QUEDA PENDIENTE PUBLICACIONES POR BUSQUEDA

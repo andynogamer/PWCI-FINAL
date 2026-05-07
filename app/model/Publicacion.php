@@ -86,6 +86,39 @@ class Publicacion {
         }
     }
 
+    public static function listarPorMundialByPais($idMundial, $pais) {
+        try{
+            $db = Database::connect();
+            $stmt = $db->prepare("
+                                SELECT p.idPublicacion, p.idMundial, p.nombreMundial, p.fechaMundial, p.idUsuario, p.nombreUsuario, p.apellidoUsuario, p.fotoUsuario,
+                                p.idCategoria, p.nombreCategoria, p.paisMencionado, p.descripcion, p.multimedia, p.estatus, p.fechaCreacion, p.fechaAprobacion, p.vistas, 
+                                p.tipoPublicacion, 
+                                (SELECT COUNT(l.idUsuario) 
+                                FROM likepublicacion l
+                                WHERE l.idPublicacion = p.idPublicacion) AS likes,
+                                (SELECT COUNT(c.id)
+                                FROM comentario c
+                                WHERE c.idPublicacion = p.idPublicacion AND c.estatus = true) AS comentarios
+                                FROM vw_PublicacionesInfo p WHERE idMundial = ? AND paisMencionado = ? AND estatus = true ORDER BY fechaCreacion DESC");
+            $stmt->execute([$idMundial, $pais]);
+            $publicaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($publicaciones as &$p) {
+                
+                if ($p['multimedia']) $p['multimedia'] = base64_encode($p['multimedia']);
+                if ($p['fotoUsuario']) $p['fotoUsuario'] = base64_encode($p['fotoUsuario']);
+            }
+            return [
+                'success' => true,
+                'data' => $publicaciones
+            ];
+        }catch(PDOException $e){
+            return[
+                'success' => false,
+                'error' => $e->getMessage()
+            ];
+        }
+    }
+
     public static function listarPorUsuario($idUsuario) {
 
 
@@ -131,6 +164,28 @@ class Publicacion {
         }
             
         return $publicaciones;
+    }
+
+    public static function listarPaises($idMundial){
+        try{
+            $db = Database::connect();
+            $stmt = $db->prepare("CALL sp_ConsultarPaisesPublicacionPorMundial(?)");
+            $stmt->execute([
+                $idMundial
+            ]);
+            $paises = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return[
+                'success' => true,
+                'data' => $paises
+            ];
+
+        }catch(PDOException $e){
+            return[
+                'success' => false,
+                'error' => $e->getMessage()
+            ];
+        }
     }
 
     private static function obtenerLikes($id) {

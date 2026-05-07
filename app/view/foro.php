@@ -17,6 +17,10 @@
             <option value="likes">Más likes</option>
             <option value="comentarios">Más comentarios</option>
         </select>
+
+        <select id="paisesFilter" hidden>
+            
+        </select>
     </div>
 </div>
 
@@ -135,6 +139,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     <?php endif; ?>
+
+    function cargarPaisesFiltered(){
+
+    }
     
 
     async function cargarPaises() {
@@ -207,7 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
     }
+    <?php if(isset($_SESSION['user'])): ?>
     cargarPaises();
+    <?php endif; ?>
     cargarFeed();
     
 
@@ -277,7 +287,67 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const selectOrden = document.getElementById('ordenPublicaciones');
+    const paisFilter = document.getElementById('paisesFilter');
+    paisFilter.addEventListener('change', function(){
+        const paisSelected = this.value;
+        fetch('index.php?action=api_get_publicaciones_by_pais', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: idMundial, pais: paisSelected })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const feed = document.getElementById('feed-publicaciones');
+                
+                feed.innerHTML = data.data.length ? '' : '<p class="empty">Aún no hay publicaciones en este mundial.</p>';
+                data.data.forEach(p => {
+                    // Verificamos si es video o imagen basado en el mimeType
+                    let multimediaHtml = '';
+                    if (p.tipoPublicacion === 1) {
+                    multimediaHtml = `<video src="data:video/mp4;base64,${p.multimedia}" class="post-img" controls></video>`;
+                    } else {
+                        multimediaHtml = `<img src="data:image/*;base64,${p.multimedia}" class="post-img">`;
+                    }
+
+                    feed.innerHTML += `
+                        <article class="post-card card">
+                            <div class="post-header">
+                                <img src="data:image/*;base64,${p.fotoUsuario}" class="user-avatar">
+                                <div>
+                                    <h3>${p.nombreUsuario} ${p.apellidoUsuario}</h3>
+                                    <span>${p.nombreCategoria} • ${new Date(p.fechaCreacion).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                            <p class="post-desc">${p.descripcion}</p>
+                            ${multimediaHtml} 
+                            
+                            <div class="post-footer">
+                                <button class="btn-like" data-id=${p.idPublicacion}>❤️ <span id="like-count-${p.idPublicacion}">${p.likes}</span> Likes</button>
+                                <a class="btn-comment" href="index.php?action=publicacion&id=${p.idPublicacion}">💬 ${p.comentarios} Comentarios</a>
+                            </div>
+                            
+                        </article>
+                    `;
+                });
+                
+                
+            } else{
+                
+                alert("Error: " + data.error);
+            }
+        })
+        .catch(err => {
+            
+            console.error(err);
+            alert("Error en la petición");
+        });
+    })
     selectOrden.addEventListener('change', function(){
+        
+        paisFilter.hidden  = true;
         const orden = this.value;
         if (orden == "likes"){
             
@@ -380,6 +450,44 @@ document.addEventListener('DOMContentLoaded', () => {
                             </article>
                         `;
                     });
+                    
+                    
+                } else{
+                    
+                    alert("Error: " + data.error);
+                }
+            })
+            .catch(err => {
+                
+                console.error(err);
+                alert("Error en la petición");
+            });
+        }else if(orden == "pais"){
+            
+            paisFilter.hidden  = false;
+            
+            fetch('index.php?action=api_get_paisespublicacion_by_mundial', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id: idMundial })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    paisFilter.innerHTML = '';
+                    paisFilter.innerHTML = '<option value="" disabled selected>Selecciona</option>';
+                    const paises = data.data;
+                    paises.forEach(item => {
+                        const option = document.createElement('option');
+
+                        option.value = item.pais;
+                        option.textContent = item.pais;
+
+                        paisFilter.appendChild(option);
+                    });
+                    
                     
                     
                 } else{
