@@ -4,6 +4,7 @@ SELECT
     p.idMundial,
     m.nombre AS nombreMundial,
     m.fecha AS fechaMundial, 
+    m.sede AS sede,
     p.idUsuario,
     u.nombre AS nombreUsuario,
     u.apellido AS apellidoUsuario,

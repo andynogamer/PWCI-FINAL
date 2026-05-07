@@ -405,6 +405,106 @@ END //
 
 --QUEDA PENDIENTE PUBLICACIONES POR BUSQUEDA
 
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS sp_BuscarPublicaciones //
+CREATE PROCEDURE sp_BuscarPublicaciones(
+    IN p_tipoBusqueda VARCHAR(50),
+    IN p_termino VARCHAR(255)
+)
+BEGIN
+    
+    CASE p_tipoBusqueda
+    
+        
+        WHEN 'categoria' THEN
+            SELECT 
+                p.idPublicacion, p.idMundial, p.nombreMundial, p.fechaMundial, p.sede, 
+                p.idUsuario, p.nombreUsuario, p.apellidoUsuario, p.fotoUsuario, p.idCategoria, 
+                p.nombreCategoria, p.paisMencionado, p.descripcion, p.multimedia, 
+                p.estatus, p.fechaCreacion, p.fechaAprobacion, p.vistas, p.tipoPublicacion, 
+                (SELECT COUNT(l.idUsuario) 
+                FROM likepublicacion l
+                WHERE l.idPublicacion = p.idPublicacion) AS likes,
+                (SELECT COUNT(c.id)
+                FROM comentario c
+                WHERE c.idPublicacion = p.idPublicacion AND c.estatus = true) AS comentarios  
+            FROM vw_PublicacionesInfo p
+            WHERE nombreCategoria LIKE CONCAT('%', p_termino, '%') 
+            AND estatus = true;
+
+        
+        WHEN 'anio' THEN
+            SELECT 
+                p.idPublicacion, p.idMundial, p.nombreMundial, p.fechaMundial, p.sede, 
+                p.idUsuario, p.nombreUsuario, p.apellidoUsuario, p.fotoUsuario, p.idCategoria, 
+                p.nombreCategoria, p.paisMencionado, p.descripcion, p.multimedia, 
+                p.estatus, p.fechaCreacion, p.fechaAprobacion, p.vistas, p.tipoPublicacion, 
+                (SELECT COUNT(l.idUsuario) 
+                FROM likepublicacion l
+                WHERE l.idPublicacion = p.idPublicacion) AS likes,
+                (SELECT COUNT(c.id)
+                FROM comentario c
+                WHERE c.idPublicacion = p.idPublicacion AND c.estatus = true) AS comentarios  
+            FROM vw_PublicacionesInfo p
+            WHERE YEAR(fechaMundial) = p_termino 
+            AND estatus = true;
+
+        
+        WHEN 'pais' THEN
+            SELECT 
+                p.idPublicacion, p.idMundial, p.nombreMundial, p.fechaMundial, p.sede, 
+                p.idUsuario, p.nombreUsuario, p.apellidoUsuario, p.fotoUsuario, p.idCategoria, 
+                p.nombreCategoria, p.paisMencionado, p.descripcion, p.multimedia, 
+                p.estatus, p.fechaCreacion, p.fechaAprobacion, p.vistas, p.tipoPublicacion, 
+                (SELECT COUNT(l.idUsuario) 
+                FROM likepublicacion l
+                WHERE l.idPublicacion = p.idPublicacion) AS likes,
+                (SELECT COUNT(c.id)
+                FROM comentario c
+                WHERE c.idPublicacion = p.idPublicacion AND c.estatus = true) AS comentarios  
+            FROM vw_PublicacionesInfo p
+            WHERE sede LIKE CONCAT('%', p_termino, '%') 
+            AND estatus = true;
+
+        
+        WHEN 'usuario' THEN
+            SELECT 
+                p.idPublicacion, p.idMundial, p.nombreMundial, p.fechaMundial, p.sede, 
+                p.idUsuario, p.nombreUsuario, p.apellidoUsuario, p.fotoUsuario, p.idCategoria, 
+                p.nombreCategoria, p.paisMencionado, p.descripcion, p.multimedia, 
+                p.estatus, p.fechaCreacion, p.fechaAprobacion, p.vistas, p.tipoPublicacion, 
+                (SELECT COUNT(l.idUsuario) 
+                FROM likepublicacion l
+                WHERE l.idPublicacion = p.idPublicacion) AS likes,
+                (SELECT COUNT(c.id)
+                FROM comentario c
+                WHERE c.idPublicacion = p.idPublicacion AND c.estatus = true) AS comentarios  
+            FROM vw_PublicacionesInfo p
+            WHERE CONCAT(nombreUsuario, ' ', apellidoUsuario) LIKE CONCAT('%', p_termino, '%') 
+            AND estatus = true;
+
+        
+        ELSE
+            SELECT 
+                p.idPublicacion, p.idMundial, p.nombreMundial, p.fechaMundial, p.sede, 
+                p.idUsuario, p.nombreUsuario, p.apellidoUsuario, p.fotoUsuario, p.idCategoria, 
+                p.nombreCategoria, p.paisMencionado, p.descripcion, p.multimedia, 
+                p.estatus, p.fechaCreacion, p.fechaAprobacion, p.vistas, p.tipoPublicacion, 
+                (SELECT COUNT(l.idUsuario) 
+                FROM likepublicacion l
+                WHERE l.idPublicacion = p.idPublicacion) AS likes,
+                (SELECT COUNT(c.id)
+                FROM comentario c
+                WHERE c.idPublicacion = p.idPublicacion AND c.estatus = true) AS comentarios  
+            FROM vw_PublicacionesInfo p
+            WHERE estatus = true 
+            LIMIT 0;
+
+    END CASE;
+END //
+
+
 
 ---------------------------------------------------------------------------------
 

@@ -15,7 +15,7 @@ class MundialController {
         $resultado = null;
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['categoria'])) {
-            $resultado = Categoria::crear($_POST['categoria']);
+            $resultado = Categoria::crear(mb_strtoupper(trim($_POST['categoria'])));
             
             if(is_array($resultado) && isset($resultado['success'])){
                 header("Location: index.php?action=admin_categorias");
