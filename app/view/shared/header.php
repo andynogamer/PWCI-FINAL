@@ -25,6 +25,20 @@ if (session_status() === PHP_SESSION_NONE) { session_start(); }
             <a href="index.php?action=mundiales" class="logo">
                 Mundial<span>Infog</span>
             </a>
+            
+        </div>
+
+        <div class="contenedor-busqueda">
+            <select id="tipoBusqueda" class="busqueda-select">
+                <option value="categoria">Categoría</option>
+                <option value="anio">Año</option>
+                <option value="pais">País Sede</option>
+                <option value="usuario">Usuario</option>
+            </select>
+            
+            <input type="text" id="terminoBusqueda" class="busqueda-input" placeholder="Escribe aquí para buscar...">
+            
+            <button id="btnBuscar" class="busqueda-btn">Buscar</button>
         </div>
 
         <nav class="nav-menu">

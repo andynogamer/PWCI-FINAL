@@ -868,6 +868,56 @@ main:has(.container) {
 }
 
 
-/* publicacion detalle*/
+.contenedor-busqueda {
+    display: flex;
+    align-items: center ;
+    /*max-width: 900px;*/
+    flex-grow: 1;
+    margin-left: 30px;
+    margin-right: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-radius: 6px;
+    /* Evita que los elementos hijos se salgan del borde redondeado */
+    overflow: hidden; 
+}
 
-/* --- VISTA DETALLE PUBLICACIÓN (Estilo Facebook) --- */
+.busqueda-select {
+    padding: 10px;
+    border: none;
+    border-right: none; /* Quitamos el borde derecho para que se fusione con el input */
+    background-color: var(--input-bg);
+    outline: none;
+    cursor: pointer;
+    color: var(--text-main);
+}
+
+.busqueda-input {
+    flex-grow: 1; /* Hace que el input tome todo el espacio sobrante */
+    padding: 10px;
+    border: none;
+    background-color: var(--input-bg);
+    border-right: none; /* Quitamos el borde para que se fusione con el botón */
+    outline: none;
+    color: var(--text-main);
+}
+
+.busqueda-btn {
+    padding: 10px 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.busqueda-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Efecto al hacer clic en el input */
+.busqueda-input:focus {
+    background-color: var(--input-bg);
+}
+
+
