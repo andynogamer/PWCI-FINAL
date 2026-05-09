@@ -36,6 +36,168 @@ body {
 
 /* --- HEADER --- */
 
+.overlay-search{
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    background: rgba(15, 23, 42, 0.75);
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    
+
+    z-index: 1001;
+
+    backdrop-filter: blur(4px);
+}
+
+.card-overlay-search{
+    background: var(--card-bg);
+
+    width: 90%;
+    max-width: 500px;
+
+    padding: 2rem;
+
+    border-radius: 18px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+
+    border: 1px solid rgba(255,255,255,0.05);
+
+    animation: fadeIn 0.25s ease;
+    z-index: 1002;
+}
+
+.card-overlay-search h2{
+    color: var(--text-main);
+
+    margin-bottom: 1.5rem;
+
+    font-size: 1.8rem;
+
+    font-weight: 600;
+}
+
+.container-overlay-input-search{
+    display: flex;
+    gap: 0.75rem;
+
+    margin-bottom: 1rem;
+
+    align-items: stretch;
+}
+
+.busqueda-input-overlay{
+    flex: 1;
+    min-width: 0;
+
+    padding: 0.9rem 1rem;
+
+    border: none;
+    outline: none;
+
+    border-radius: 12px;
+
+    background: var(--input-bg);
+
+    color: var(--text-main);
+
+    font-size: 1rem;
+
+    transition: var(--transition);
+}
+
+.busqueda-input-overlay::placeholder{
+    color: var(--text-muted);
+}
+
+.busqueda-input-overlay:focus{
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3);
+}
+
+.busqueda-btn-overlay{
+    padding: 0 1.3rem;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: var(--transition);
+
+    white-space: nowrap;
+}
+
+.busqueda-btn-overlay:hover{
+    background: var(--primary-hover);
+
+    transform: translateY(-1px);
+}
+
+.busqueda-select-overlay{
+    width: 100%;
+
+    padding: 0.9rem 1rem;
+
+    border: none;
+    outline: none;
+
+    border-radius: 12px;
+
+    background: var(--input-bg);
+
+    color: var(--text-main);
+
+    font-size: 1rem;
+
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+.busqueda-select-overlay:focus{
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3);
+}
+
+@keyframes fadeIn{
+    from{
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 600px){
+
+    .container-overlay-input-search{
+        flex-direction: column;
+    }
+
+    .busqueda-btn-overlay{
+        width: 100%;
+
+        padding: 0.9rem;
+    }
+
+}
 /* --- AJUSTES HEADER --- */
 .header-left {
     display: flex;
@@ -212,7 +374,7 @@ body {
     
 }
 
-.btn-delete-mundial {
+.btn-delete-mundial, .btn-search {
     background: none;
     border: none;
     padding: 0;
