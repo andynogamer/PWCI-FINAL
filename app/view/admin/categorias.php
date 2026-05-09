@@ -31,49 +31,57 @@
         </tbody>
     </table>
 </div>
-
+<script src="js/jquery4.0.0.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', ()=>{
-        fetch('index.php?action=api_get_categorias')
-
-            .then(response=>response.json())
-            .then(data =>{
+   document.addEventListener('DOMContentLoaded', () => {
+        $.ajax({
+            url: 'index.php?action=api_get_categorias',
+            method: 'GET',
+            dataType: 'json', 
+            success: (data) => {
                 const container = document.getElementById('categorias-container');
-                container.innerHTML= '';
+                container.innerHTML = '';
+
+                
                 if (data.error) {
-                container.innerHTML = `
-                    <div class="error-message">
-                        <h3>Ocurrió un error</h3>
-                        <p>${data.mensaje}</p>
-                    </div>
-                `;
-                return;
+                    container.innerHTML = `
+                        <div class="error-message">
+                            <h3>Ocurrió un error</h3>
+                            <p>${data.mensaje}</p>
+                        </div>
+                    `;
+                    return;
                 }
+
+            
                 if (!Array.isArray(data)) {
                     container.innerHTML = `<p>Respuesta inesperada del servidor</p>`;
                     return;
                 }
+
+                
                 data.forEach(c => {
-                    
                     const tr = document.createElement('tr');
                     tr.style.borderBottom = '1px solid #334155';
 
-                    
                     const tdId = document.createElement('td');
                     tdId.style.padding = '10px';
                     tdId.textContent = c.id; 
+
                     const tdCat = document.createElement('td');
                     tdCat.style.padding = '10px';
                     tdCat.textContent = c.categoria; 
 
-                    
                     tr.appendChild(tdId);
                     tr.appendChild(tdCat);
                     container.appendChild(tr);
                 });
-
-            })
-            .catch(error => console.error('Error: ', error));
+            },
+            error: (xhr, status, error) => {
+                
+                console.error('Error en la petición AJAX: ', error);
+            }
+        });
     });
 </script>
 

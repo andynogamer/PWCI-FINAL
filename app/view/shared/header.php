@@ -59,6 +59,7 @@ if (session_status() === PHP_SESSION_NONE) { session_start(); }
                 <div class="mobile-sidebar" id="mobileSidebar">
                     <div class="sidebar-header">
                         <h3>Menú</h3>
+                        <button class="btn-search" id="btnSearch"><img src="resources/search.png" alt=""></button>
                         <button class="btn-close" id="closeMenu">&times;</button>
                     </div>
                     <div class="sidebar-links">

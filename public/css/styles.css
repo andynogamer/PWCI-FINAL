@@ -150,6 +150,11 @@ body {
         padding-left: 0;
     }
 }
+@media(max-width: 850px){
+    .contenedor-busqueda{
+        display: none !important;
+    }
+}
 
 .main-header {
     background: var(--card-bg);
