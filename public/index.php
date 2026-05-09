@@ -172,6 +172,10 @@ switch ($action) {
         (new ApiController())->getPublicacionesFilteredByPais();
         break;
     
+    case 'api_get_search':
+        (new ApiController())->getPublicacionesFilteredBySearch();
+        break;
+    
     default:
         header("Location: index.php?action=mundiales");
         break;

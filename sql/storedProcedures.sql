@@ -447,8 +447,9 @@ BEGIN
                 FROM comentario c
                 WHERE c.idPublicacion = p.idPublicacion AND c.estatus = true) AS comentarios  
             FROM vw_PublicacionesInfo p
-            WHERE YEAR(fechaMundial) = p_termino 
-            AND estatus = true;
+            WHERE fechaMundial >= CONCAT(p_termino, '-01-01') 
+              AND fechaMundial <= CONCAT(p_termino, '-12-31')
+              AND estatus = true;
 
         
         WHEN 'pais' THEN

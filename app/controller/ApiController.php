@@ -149,6 +149,46 @@ private function renderJSON($data) {
         }
     }
 
+    public function getPublicacionesFilteredBySearch(){
+        header('Content-Type: application/json');
+        $input = json_decode(file_get_contents("php://input"), true);
+        $tipoBusqueda = $input['tipoBusqueda'] ?? null;
+        $termino  = $input['termino'] ?? null;
+        if(!$tipoBusqueda){
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'Especifique el tipo de busqueda'
+            ]);
+            exit;
+        }
+        if(!$termino){
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'Ingrese algo en la busqueda'
+            ]);
+            exit;
+        }
+        if($tipoBusqueda === 'anio' && !preg_match('/^\d{4}$/', $termino)){
+            http_response_code(400);
+            echo json_encode([
+                'error' => true,
+                'mensaje' => 'El año debe de ser un número entero de 4 digitos'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+        
+        $response =  Publicacion::listarPorSearch($tipoBusqueda, trim($termino));
+
+        if($response['success']){
+            $this->renderJSON($response);
+        }else{
+            http_response_code(500);
+            $this->renderJSON($response);
+        }
+    }
+
     public function getPublicacionesUsuario() {
         $idRequest = $_GET['idUsuario'] ?? null;
         $idSession = $_SESSION['user']['id'];

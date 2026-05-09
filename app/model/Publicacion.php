@@ -119,6 +119,32 @@ class Publicacion {
         }
     }
 
+    public static function listarPorSearch($tipoBusqueda, $termino){
+        try{
+            $db = Database::connect();
+            $stmt = $db->prepare("CALL sp_BuscarPublicaciones(?, ?)");
+            $stmt->execute([
+                $tipoBusqueda,
+                $termino
+            ]);
+            $publicaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($publicaciones as &$p) {
+                
+                if ($p['multimedia']) $p['multimedia'] = base64_encode($p['multimedia']);
+                if ($p['fotoUsuario']) $p['fotoUsuario'] = base64_encode($p['fotoUsuario']);
+            }
+            return [
+                'success' => true,
+                'data' => $publicaciones
+            ];
+        }catch(PDOException $e){
+            return[
+                'success' => false,
+                'error' => $e->getMessage()
+            ];
+        }
+    }
+
     public static function listarPorUsuario($idUsuario) {
 
 

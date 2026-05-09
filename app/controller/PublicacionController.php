@@ -5,6 +5,7 @@ class PublicacionController{
     public function crearPublicacion(){
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $datos = $_POST;
+            $datos['pais'] = mb_strtoupper($datos['pais']);
             $datos['multimedia'] = (isset($_FILES['multimedia']) && $_FILES['multimedia']['error'] == 0) 
                 ? file_get_contents($_FILES['multimedia']['tmp_name']) : null;
 
